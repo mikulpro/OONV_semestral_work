@@ -8,6 +8,7 @@ namespace Semestralni_prace
     {
         Texture2D ballTexture;
         Vector2 ballPosition;
+        private Vector2 ballMovement;
         float ballSpeed;
 
         
@@ -24,9 +25,10 @@ namespace Semestralni_prace
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, 
-          _graphics.PreferredBackBufferHeight / 2);
-            ballSpeed = 100f;
+            ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2 + 30, 
+          _graphics.PreferredBackBufferHeight / 2 - 48);
+            ballSpeed = 1000f;
+            ballMovement = new Vector2(1, 1);
 
 
             base.Initialize();
@@ -47,6 +49,9 @@ namespace Semestralni_prace
 
             // TODO: Add your update logic here
             var kstate = Keyboard.GetState();
+
+            ballPosition.X += ballMovement.X * ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            ballPosition.Y += ballMovement.Y * ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (kstate.IsKeyDown(Keys.Up))
             {
@@ -72,19 +77,23 @@ namespace Semestralni_prace
             if(ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
             {
                 ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
+                ballMovement.X = -1;
             }
             else if(ballPosition.X < ballTexture.Width / 2)
             {
                 ballPosition.X = ballTexture.Width / 2;
+                ballMovement.X = 1;
             }
 
             if(ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Height / 2)
             {
                 ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Height / 2;
+                ballMovement.Y = -1;
             }
             else if (ballPosition.Y < ballTexture.Height / 2)
             {
                 ballPosition.Y = ballTexture.Height / 2;
+                ballMovement.Y = 1;
             }
 
             base.Update(gameTime);
