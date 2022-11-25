@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "KH/4FfqkXudgyVW9K01x102V4yCXJzUojMLpXwbzVjKlACer6G8fYXZb7MF0WuVJLIz5DX57vhymvgCZRl/bqA==",
+  "dgSpecHash": "SGoiX3XlOi20wJpmt8my9g7LHGyIBSueBsVxNEsp2jRHQJ/D9U9h2IoNpd0jtNwrJp88sxiDfT8koQaF9u24yg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\proko\\source\\repos\\OONV_semestral_work\\Semestralni_prace\\Semestralni_prace.csproj",
+  "projectFilePath": "/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Semestralni_prace.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\proko\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\proko\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "/home/doctordehi/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "/home/doctordehi/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
   ],
   "logs": []
 }
