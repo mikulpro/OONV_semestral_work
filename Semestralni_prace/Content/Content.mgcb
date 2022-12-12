@@ -25,3 +25,8 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
+#begin CowBoy.aseprite
+/importer:
+/processor:
+/build:CowBoy.aseprite
+

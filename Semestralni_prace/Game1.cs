@@ -2,14 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+//  Add using statements
+using MonoGame.Aseprite.Documents;
+using MonoGame.Aseprite.Graphics;
+
 namespace Semestralni_prace
 {
     public class Game1 : Game
     {
-        Texture2D ballTexture;
-        Vector2 ballPosition;
-        private Vector2 ballMovement;
-        float ballSpeed;
+        Player _player;
 
         
         private GraphicsDeviceManager _graphics;
@@ -24,11 +25,8 @@ namespace Semestralni_prace
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2 + 30, 
-          _graphics.PreferredBackBufferHeight / 2 - 48);
-            ballSpeed = 1000f;
-            ballMovement = new Vector2(1, 1);
+            _player = new Player();
+            _player.setWindowSize(new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight));
 
 
             base.Initialize();
@@ -39,7 +37,13 @@ namespace Semestralni_prace
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
             
-            ballTexture = Content.Load<Texture2D>("ball");
+            Texture2D playerTexture = Content.Load<Texture2D>("ball");
+            //  Load the AsepriteDocument
+            AsepriteDocument aseDoc = Content.Load<AsepriteDocument>("CowBoy");
+
+            //  Create a new AnimatedSprite from the document
+            AnimatedSprite sprite = new AnimatedSprite(aseDoc);
+            _player.LoadContent(_spriteBatch, sprite);
         }
 
         protected override void Update(GameTime gameTime)
@@ -47,54 +51,7 @@ namespace Semestralni_prace
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            var kstate = Keyboard.GetState();
-
-            ballPosition.X += ballMovement.X * ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            ballPosition.Y += ballMovement.Y * ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (kstate.IsKeyDown(Keys.Up))
-            {
-                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if(kstate.IsKeyDown(Keys.Down))
-            {
-                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if (kstate.IsKeyDown(Keys.Left))
-            {
-                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if(kstate.IsKeyDown(Keys.Right))
-            {
-                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            
-            // boundaries
-            if(ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
-            {
-                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
-                ballMovement.X = -1;
-            }
-            else if(ballPosition.X < ballTexture.Width / 2)
-            {
-                ballPosition.X = ballTexture.Width / 2;
-                ballMovement.X = 1;
-            }
-
-            if(ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Height / 2)
-            {
-                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Height / 2;
-                ballMovement.Y = -1;
-            }
-            else if (ballPosition.Y < ballTexture.Height / 2)
-            {
-                ballPosition.Y = ballTexture.Height / 2;
-                ballMovement.Y = 1;
-            }
+            _player.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -105,17 +62,9 @@ namespace Semestralni_prace
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(
-                ballTexture,
-                ballPosition,
-                null,
-                Color.White,
-                0f,
-                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
-                Vector2.One,
-                SpriteEffects.None,
-                0f
-            );
+    
+            _player.Draw();
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);
