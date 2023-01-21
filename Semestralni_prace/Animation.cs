@@ -49,15 +49,17 @@ class Animation
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect)
+    public void Draw(SpriteBatch spriteBatch, Vector2 position, Vector2 scale, SpriteEffects spriteEffect)
     {
         int column = currentFrame % (spriteSheet.Width / frameWidth);
         int row = currentFrame / (spriteSheet.Width / frameWidth);
 
         Rectangle sourceRectangle = new Rectangle(column * frameWidth, row * frameHeight, frameWidth, frameHeight);
         Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, frameWidth, frameHeight);
+        Vector2 origin = new Vector2(0, 0); // top-left corner of the image
+        
+        spriteBatch.Draw(spriteSheet, position, sourceRectangle, Color.White,0, origin, scale, spriteEffect,0);
 
-        /*spriteBatch.Draw(spriteSheet, destinationRectangle, sourceRectangle, Color.White);*/
-        spriteBatch.Draw(spriteSheet, destinationRectangle, sourceRectangle, Color.White,0,Vector2.Zero, spriteEffect,0);
+        /*spriteBatch.Draw(spriteSheet, destinationRectangle, sourceRectangle, Color.White,0,Vector2.Zero, spriteEffect,0);*/
     }
 }

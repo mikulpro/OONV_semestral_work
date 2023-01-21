@@ -11,7 +11,8 @@ namespace Semestralni_prace
 {
     public class Game1 : Game
     {
-        Playerv2 _player;
+        Player _player;
+        Texture2D backgroundTile;
 
         
         private GraphicsDeviceManager _graphics;
@@ -22,13 +23,14 @@ namespace Semestralni_prace
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = 1920;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 1080;   // set this value to the desired height of your window
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
-            /*_player = new Player();
-            _player.setWindowSize(new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight));*/
-            _player = new Playerv2(new Vector2(0,0));
+            _player = new Player(new Vector2(0,0));
 
 
             base.Initialize();
@@ -37,42 +39,37 @@ namespace Semestralni_prace
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            /*_player.LoadContent(Content.Load<Texture2D>("spritesheetlarger"));*/
+            backgroundTile = Content.Load<Texture2D>("background_tile");
             
             // load player animations
             Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
             animations.Add("idle", new Animation(
                 Content.Load<Texture2D>("CowBoyIdle"),
-                Playerv2.player_animation_frame_width, 
-                Playerv2.player_animation_frame_height, 
+                Player.player_animation_frame_width, 
+                Player.player_animation_frame_height, 
                 7, 
                 0.1f, true));
             animations.Add("walk", new Animation(
                 Content.Load<Texture2D>("CowBoyWalking"), 
-                Playerv2.player_animation_frame_width, 
-                Playerv2.player_animation_frame_height, 
+                Player.player_animation_frame_width, 
+                Player.player_animation_frame_height, 
                8, 
                 0.1f, true));
             animations.Add("shoot", new Animation(
                 Content.Load<Texture2D>("CowBoyShoot"), 
-                Playerv2.player_animation_frame_width,
-                Playerv2.player_animation_frame_height, 
+                Player.player_animation_frame_width,
+                Player.player_animation_frame_height, 
                 5, 
                 0.1f, true));
             animations.Add("rapid_fire", new Animation(
                 Content.Load<Texture2D>("CowBoyRapidFire"), 
-                Playerv2.player_animation_frame_width, 
-                Playerv2.player_animation_frame_height, 
+                Player.player_animation_frame_width, 
+                Player.player_animation_frame_height, 
                 11, 
                 0.1f, true));
 
             _player.LoadContent(animations);
-            /*Texture2D playerTexture = Content.Load<Texture2D>("ball");
-            //  Load the AsepriteDocument
-            Texture2D aseDoc = Content.Load<Texture2D>("ball");*/
-
-
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -91,6 +88,13 @@ namespace Semestralni_prace
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
+            for (int x = 0; x < GraphicsDevice.Viewport.Width; x += backgroundTile.Width)
+            {
+                for (int y = 0; y < GraphicsDevice.Viewport.Height; y += backgroundTile.Height)
+                {
+                    _spriteBatch.Draw(backgroundTile, new Vector2(x, y), Color.White);
+                }
+            }
     
             _player.Draw(_spriteBatch);
             
