@@ -6,7 +6,7 @@ using MonoGame.Aseprite.Graphics;
 
 namespace Semestralni_prace;
 
-public class Player
+public class Playerv1
 {
        private Vector2 _coords;
        private SpriteBatch _spriteBatch;
@@ -17,7 +17,7 @@ public class Player
        private Vector2 _windowSize;
        
 
-       public Player(int initX=0, int initY=0)
+       public Playerv1(int initX=0, int initY=0)
        {
               _coords = new Vector2();
               _coords.X =initX;
@@ -26,10 +26,11 @@ public class Player
               _movementSpeed = 100;
        }
 
-       public void LoadContent(SpriteBatch spriteBatch, AnimatedSprite sprite)
+       public void LoadContent(SpriteBatch spriteBatch, Texture2D texture)
        {
               _spriteBatch = spriteBatch;
-              _sprite = sprite;
+              _texture = texture;
+              
        }
 
        public void setWindowSize(Vector2 windowSize)
@@ -88,8 +89,8 @@ public class Player
 
        public void Draw()
        {
-              _sprite.Render(_spriteBatch);
-              /*_spriteBatch.Draw(
+              /*_sprite.Render(_spriteBatch);*/
+              _spriteBatch.Draw(
                      _texture,
                      _coords,
                      null,
@@ -99,6 +100,6 @@ public class Player
                      Vector2.One,
                      SpriteEffects.None,
                      0f
-              );*/
+              );
        }
 }
