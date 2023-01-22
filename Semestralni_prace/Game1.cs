@@ -61,12 +61,20 @@ namespace Semestralni_prace
                 Player.player_animation_frame_height, 
                 5, 
                 0.1f, true));
+            animations.Add("shoot_walk", new Animation(
+                Content.Load<Texture2D>("CowBoyShootWalking"), 
+                Player.player_animation_frame_width, 
+                Player.player_animation_frame_height, 
+                8, 
+                0.1f, true));
             animations.Add("rapid_fire", new Animation(
                 Content.Load<Texture2D>("CowBoyRapidFire"), 
                 Player.player_animation_frame_width, 
                 Player.player_animation_frame_height, 
                 11, 
                 0.1f, true));
+            
+ 
 
             _player.LoadContent(animations);
             

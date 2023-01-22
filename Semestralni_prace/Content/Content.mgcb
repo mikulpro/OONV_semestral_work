@@ -109,6 +109,18 @@
 /processorParam:TextureFormat=Color
 /build:CowBoyShoot.png
 
+#begin CowBoyShootWalking.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CowBoyShootWalking.png
+
 #begin CowBoySmokingIdle.png
 /importer:TextureImporter
 /processor:TextureProcessor

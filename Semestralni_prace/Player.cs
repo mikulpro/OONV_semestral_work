@@ -32,6 +32,11 @@ namespace Semestralni_prace
             _scale = new Vector2(2.0f, 2.0f); // scale factor of 2x
         }
 
+        public void Shoot()
+        {
+            
+        }
+
         public void LoadContent(Dictionary<string, Animation> animations)
         {
             _animations = animations;
@@ -73,8 +78,15 @@ namespace Semestralni_prace
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                _currentAnimation = "shoot";
-                anything_pressed = true;
+                if (anything_pressed)
+                {
+                    _currentAnimation = "shoot_walk";
+                }
+                else
+                {
+                    _currentAnimation = "shoot";
+                    anything_pressed = true;
+                }
             }
 
             if (!anything_pressed)
