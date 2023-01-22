@@ -42,46 +42,9 @@ namespace Semestralni_prace
             _backgroundTile = Content.Load<Texture2D>("background_tile");
             
             // load player animations
-            Dictionary<string, AnimatedSprite> animatedSprites = new Dictionary<string, AnimatedSprite>();
-            animatedSprites.Add("idle", new AnimatedSprite(
-                Content.Load<Texture2D>("CowBoyIdle"),
-                Player.PlayerAnimationFrameWidth, 
-                Player.PlayerAnimationFrameHeight, 
-                7, 
-                0.1f, true,
-                new Vector2(2.0f, 2.0f)));
-            animatedSprites.Add("walk", new AnimatedSprite(
-                Content.Load<Texture2D>("CowBoyWalking"), 
-                Player.PlayerAnimationFrameWidth, 
-                Player.PlayerAnimationFrameHeight, 
-               8, 
-                0.1f, true,
-                new Vector2(2.0f, 2.0f)));
-            animatedSprites.Add("shoot", new AnimatedSprite(
-                Content.Load<Texture2D>("CowBoyShoot"), 
-                Player.PlayerAnimationFrameWidth,
-                Player.PlayerAnimationFrameHeight, 
-                5, 
-                0.1f, true,
-                new Vector2(2.0f, 2.0f)));
-            animatedSprites.Add("shoot_walk", new AnimatedSprite(
-                Content.Load<Texture2D>("CowBoyShootWalking"), 
-                Player.PlayerAnimationFrameWidth, 
-                Player.PlayerAnimationFrameHeight, 
-                8, 
-                0.1f, true,
-                new Vector2(2.0f, 2.0f)));
-            animatedSprites.Add("rapid_fire", new AnimatedSprite(
-                Content.Load<Texture2D>("CowBoyRapidFire"), 
-                Player.PlayerAnimationFrameWidth, 
-                Player.PlayerAnimationFrameHeight, 
-                11, 
-                0.1f, true,
-                new Vector2(2.0f, 2.0f)));
-            
- 
 
-            _player.LoadContent(animatedSprites);
+
+            _player.LoadContent(Content);
             
         }
 

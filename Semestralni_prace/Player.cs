@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
+
 
 namespace Semestralni_prace
 {
@@ -50,6 +52,46 @@ namespace Semestralni_prace
         public void LoadContent(Dictionary<string, AnimatedSprite> animatedSprites)
         {
             _animatedSprites = animatedSprites;
+        }
+        public void LoadContent(ContentManager content)
+        {
+             _animatedSprites = new Dictionary<string, AnimatedSprite>();
+            _animatedSprites.Add("idle", new AnimatedSprite(
+                content.Load<Texture2D>("CowBoyIdle"),
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
+                7, 
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            _animatedSprites.Add("walk", new AnimatedSprite(
+                content.Load<Texture2D>("CowBoyWalking"), 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
+                8, 
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            _animatedSprites.Add("shoot", new AnimatedSprite(
+                content.Load<Texture2D>("CowBoyShoot"), 
+                Player.PlayerAnimationFrameWidth,
+                Player.PlayerAnimationFrameHeight, 
+                5, 
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            _animatedSprites.Add("shoot_walk", new AnimatedSprite(
+                content.Load<Texture2D>("CowBoyShootWalking"), 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
+                8, 
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            _animatedSprites.Add("rapid_fire", new AnimatedSprite(
+                content.Load<Texture2D>("CowBoyRapidFire"), 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
+                11, 
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+
         }
 
         public void Update(GameTime gameTime)
