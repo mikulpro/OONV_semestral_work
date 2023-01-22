@@ -10,7 +10,7 @@ public class Playerv1
 {
        private Vector2 _coords;
        private SpriteBatch _spriteBatch;
-       private AnimatedSprite _sprite;
+       private MonoGame.Aseprite.Graphics.AnimatedSprite _sprite;
        private Texture2D _texture;
        private Vector2 _movementVector;
        private int _movementSpeed;

@@ -3,21 +3,32 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Aseprite.Graphics;
 
 namespace Semestralni_prace
 {
 
     class Player
     {
-        public static int player_animation_frame_width = 48;
-        public static int player_animation_frame_height = 48;
+        public static readonly int PlayerAnimationFrameWidth = 48;
+        public static readonly int PlayerAnimationFrameHeight = 48;
+
+        private float _shootDuration = 5*0.1f;
+        private float _shootDurationWalking = 8*0.1f;
+        private float _shootDelay = 0.1f;
+        private float _shootDelayWalking = 2 * 0.1f;
         
-        private Dictionary<string, Animation> _animations;
+
+        public int Hp { get; }
+        public int Attack { get; }
+        public int Defense { get; }
+        
+
         private Vector2 _position;
         private Vector2 _velocity;
-        private Vector2 _scale;
-        private int _facingDirection = 1; // 1 = right, -1 = left
+        
+        private Dictionary<string, AnimatedSprite> _animatedSprites;
+        
+        private int _facingDirection; // 1 = right, -1 = left
         private string _currentAnimation;
         private SpriteEffects _currentEffect;
         
@@ -29,7 +40,6 @@ namespace Semestralni_prace
             _currentAnimation = "idle";
             _facingDirection = 1;
             _currentEffect = SpriteEffects.None;
-            _scale = new Vector2(2.0f, 2.0f); // scale factor of 2x
         }
 
         public void Shoot()
@@ -37,9 +47,9 @@ namespace Semestralni_prace
             
         }
 
-        public void LoadContent(Dictionary<string, Animation> animations)
+        public void LoadContent(Dictionary<string, AnimatedSprite> animatedSprites)
         {
-            _animations = animations;
+            _animatedSprites = animatedSprites;
         }
 
         public void Update(GameTime gameTime)
@@ -47,49 +57,49 @@ namespace Semestralni_prace
             _velocity.X = 0;
             _velocity.Y = 0;
 
-            bool anything_pressed = false;
+            bool anythingPressed = false;
             // handle player input and update velocity
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 _velocity.X = 2;
                 _facingDirection = 1;
                 _currentAnimation = "walk";
-                anything_pressed = true;
+                anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 _velocity.X = -2;
                 _facingDirection = -1;
                 _currentAnimation = "walk";
-                anything_pressed = true;
+                anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 _velocity.Y = 2;
                 _currentAnimation = "walk";
-                anything_pressed = true;
+                anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 _velocity.Y = -2;
                 _currentAnimation = "walk";
-                anything_pressed = true;
+                anythingPressed = true;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                if (anything_pressed)
+                if (anythingPressed)
                 {
                     _currentAnimation = "shoot_walk";
                 }
                 else
                 {
                     _currentAnimation = "shoot";
-                    anything_pressed = true;
+                    anythingPressed = true;
                 }
             }
 
-            if (!anything_pressed)
+            if (!anythingPressed)
             {
                 _currentAnimation = "idle";
             }
@@ -105,13 +115,13 @@ namespace Semestralni_prace
             }
 
 
-            _animations[_currentAnimation].Update(gameTime);
+            _animatedSprites[_currentAnimation].Update(gameTime);
             _position += _velocity;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _animations[_currentAnimation].Draw(spriteBatch, _position, _scale, _currentEffect);
+            _animatedSprites[_currentAnimation].Draw(spriteBatch, _position, _currentEffect);
         }
     }
 }

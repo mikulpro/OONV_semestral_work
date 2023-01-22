@@ -12,7 +12,7 @@ namespace Semestralni_prace
     public class Game1 : Game
     {
         Player _player;
-        Texture2D backgroundTile;
+        Texture2D _backgroundTile;
 
         
         private GraphicsDeviceManager _graphics;
@@ -39,44 +39,49 @@ namespace Semestralni_prace
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            backgroundTile = Content.Load<Texture2D>("background_tile");
+            _backgroundTile = Content.Load<Texture2D>("background_tile");
             
             // load player animations
-            Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
-            animations.Add("idle", new Animation(
+            Dictionary<string, AnimatedSprite> animatedSprites = new Dictionary<string, AnimatedSprite>();
+            animatedSprites.Add("idle", new AnimatedSprite(
                 Content.Load<Texture2D>("CowBoyIdle"),
-                Player.player_animation_frame_width, 
-                Player.player_animation_frame_height, 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
                 7, 
-                0.1f, true));
-            animations.Add("walk", new Animation(
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            animatedSprites.Add("walk", new AnimatedSprite(
                 Content.Load<Texture2D>("CowBoyWalking"), 
-                Player.player_animation_frame_width, 
-                Player.player_animation_frame_height, 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
                8, 
-                0.1f, true));
-            animations.Add("shoot", new Animation(
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            animatedSprites.Add("shoot", new AnimatedSprite(
                 Content.Load<Texture2D>("CowBoyShoot"), 
-                Player.player_animation_frame_width,
-                Player.player_animation_frame_height, 
+                Player.PlayerAnimationFrameWidth,
+                Player.PlayerAnimationFrameHeight, 
                 5, 
-                0.1f, true));
-            animations.Add("shoot_walk", new Animation(
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            animatedSprites.Add("shoot_walk", new AnimatedSprite(
                 Content.Load<Texture2D>("CowBoyShootWalking"), 
-                Player.player_animation_frame_width, 
-                Player.player_animation_frame_height, 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
                 8, 
-                0.1f, true));
-            animations.Add("rapid_fire", new Animation(
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
+            animatedSprites.Add("rapid_fire", new AnimatedSprite(
                 Content.Load<Texture2D>("CowBoyRapidFire"), 
-                Player.player_animation_frame_width, 
-                Player.player_animation_frame_height, 
+                Player.PlayerAnimationFrameWidth, 
+                Player.PlayerAnimationFrameHeight, 
                 11, 
-                0.1f, true));
+                0.1f, true,
+                new Vector2(2.0f, 2.0f)));
             
  
 
-            _player.LoadContent(animations);
+            _player.LoadContent(animatedSprites);
             
         }
 
@@ -96,11 +101,11 @@ namespace Semestralni_prace
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            for (int x = 0; x < GraphicsDevice.Viewport.Width; x += backgroundTile.Width)
+            for (int x = 0; x < GraphicsDevice.Viewport.Width; x += _backgroundTile.Width)
             {
-                for (int y = 0; y < GraphicsDevice.Viewport.Height; y += backgroundTile.Height)
+                for (int y = 0; y < GraphicsDevice.Viewport.Height; y += _backgroundTile.Height)
                 {
-                    _spriteBatch.Draw(backgroundTile, new Vector2(x, y), Color.White);
+                    _spriteBatch.Draw(_backgroundTile, new Vector2(x, y), Color.White);
                 }
             }
     
