@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -15,16 +16,18 @@ namespace Semestralni_prace
         Texture2D _backgroundTile;
 
         
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        // je vhodne mit je jako public static, aby bylo mozne si je kdekoliv volat a nemusely s porad vkladat do funkci
+        public static ContentManager _content;
+        public static GraphicsDeviceManager _graphics;
+        public static SpriteBatch _spriteBatch;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferWidth = 1920;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 1080;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
         }
 
@@ -38,12 +41,12 @@ namespace Semestralni_prace
 
         protected override void LoadContent()
         {
+
+            _content = this.Content;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _backgroundTile = Content.Load<Texture2D>("background_tile");
             
             // load player animations
-
-
             _player.LoadContent(Content);
             
         }
@@ -63,6 +66,7 @@ namespace Semestralni_prace
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            
             _spriteBatch.Begin();
             for (int x = 0; x < GraphicsDevice.Viewport.Width; x += _backgroundTile.Width)
             {

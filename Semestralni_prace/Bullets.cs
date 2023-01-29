@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
 
-namespace Semestralni_prace;
+namespace VYPNUTO;
 
 // muší váha na kulky
 
