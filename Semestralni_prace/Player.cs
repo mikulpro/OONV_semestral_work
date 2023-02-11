@@ -55,7 +55,7 @@ namespace Semestralni_prace
         }
         public void LoadContent(ContentManager content)
         {
-             _animatedSprites = new Dictionary<string, AnimatedSprite>();
+            _animatedSprites = new Dictionary<string, AnimatedSprite>();
             _animatedSprites.Add("idle", new AnimatedSprite(
                 content.Load<Texture2D>("CowBoyIdle"),
                 Player.PlayerAnimationFrameWidth, 
@@ -133,11 +133,13 @@ namespace Semestralni_prace
                 if (anythingPressed)
                 {
                     _currentAnimation = "shoot_walk";
+                    
                 }
                 else
                 {
                     _currentAnimation = "shoot";
                     anythingPressed = true;
+                    
                 }
             }
 
@@ -158,7 +160,10 @@ namespace Semestralni_prace
 
 
             _animatedSprites[_currentAnimation].Update(gameTime);
-            _position += _velocity;
+            if (!( (_position.X + _velocity.X < 0) || (_position.X + _velocity.X + PlayerAnimationFrameWidth*2 > Game1._graphics.GraphicsDevice.Viewport.Width) || (_position.Y + _velocity.Y < 0) || (_position.Y + _velocity.Y + PlayerAnimationFrameHeight*2 > Game1._graphics.GraphicsDevice.Viewport.Height) ))
+            {
+                _position += _velocity;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
