@@ -25,7 +25,7 @@ namespace Semestralni_prace
         public int Defense { get; }
         
 
-        private Vector2 _position;
+        public Vector2 _position;
         private Vector2 _velocity;
         
         private Dictionary<string, AnimatedSprite> _animatedSprites;

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Semestralni_prace.Enemies;
 
-public class Enemy
+public class Enemy : IEnemy
 {
     
 }

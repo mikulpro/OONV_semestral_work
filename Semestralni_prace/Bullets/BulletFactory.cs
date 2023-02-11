@@ -15,19 +15,8 @@ namespace Semestralni_prace;
 
 public class BulletFactory
 {
-    private Dictionary<string, BulletFlyweight> _bullets;
-
-    public BulletFactory()
+    public IBullet GetRegularBullet()
     {
-        _bullets = 
-    }
-
-    public IBullet GetBullet(string key, Texture2D texture)
-    {
-        if (!_bullets.ContainsKey(key))
-        {
-            _bullets[key] = new BulletFlyweight(texture);
-        }
-        return _bullets[key];
+        return BulletFlyweight.GenerateNewBullet();
     }
 }

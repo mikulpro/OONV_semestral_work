@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 //  Add using statements
 using MonoGame.Aseprite.Documents;
 using MonoGame.Aseprite.Graphics;
+using Semestralni_prace.Enemies;
 
 namespace Semestralni_prace
 {
@@ -20,6 +21,11 @@ namespace Semestralni_prace
         public static ContentManager _content;
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
+        public static BulletList ActiveBullets;
+        public static int MaximumNumberOfVisualisedBullets;
+        public static IEnemy ActiveEnemies;
+        public static int EnemyHitboxWidth;
+        public static int EnemyHitboxHeight;
 
         public Game1()
         {
@@ -29,6 +35,7 @@ namespace Semestralni_prace
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
+            MaximumNumberOfVisualisedBullets = 100;
         }
 
         protected override void Initialize()
