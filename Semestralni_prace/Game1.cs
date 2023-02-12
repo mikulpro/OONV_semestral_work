@@ -13,7 +13,7 @@ namespace Semestralni_prace
 {
     public class Game1 : Game
     {
-        Player _player;
+        public Player _player;
         Texture2D _backgroundTile;
 
         
@@ -21,9 +21,9 @@ namespace Semestralni_prace
         public static ContentManager _content;
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
-        public static BulletList ActiveBullets;
+        public BulletList<IBullet> ActiveBullets;
         public static int MaximumNumberOfVisualisedBullets;
-        public static IEnemy ActiveEnemies;
+        public List<IEnemy> ActiveEnemies;
         public static int EnemyHitboxWidth;
         public static int EnemyHitboxHeight;
 
@@ -40,8 +40,8 @@ namespace Semestralni_prace
 
         protected override void Initialize()
         {
-            _player = new Player(new Vector2(0,0));
-
+            _player = new Player();
+            _player._position = new Vector2(860, 540);
 
             base.Initialize();
         }

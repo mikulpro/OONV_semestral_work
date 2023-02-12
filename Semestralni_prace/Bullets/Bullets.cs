@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
+using Semestralni_prace.Enemies;
 
 namespace Semestralni_prace;
 
@@ -28,10 +29,9 @@ public class RegularBullet
 {
     public Vector2 Position { get; set; }
 
-    RegularBullet()
+    RegularBullet(Game1 game)
     {
-        // JAK MAM TOHLE UDELAT ???
-        this.Position = new Vector2(Player._position.X, Player._position.Y);
+        this.Position = new Vector2(game._player._position.X, game._player._position.Y);
     }
     
     void Update()
@@ -57,30 +57,30 @@ public class BulletFlyweight : IBullet
     public static readonly int BulletAnimationFrameWidth = 48;
     public static readonly int BulletAnimationFrameHeight = 48;
     public Vector2 Velocity { get; set; }
-    public Vector2 Position { get; private set; }  // k nicemu jen pro splneni IBullet
-    public double damage;
+    public Vector2 Position { get; set; }  // k nicemu jen pro splneni IBullet
+    public int damage;
 
     public BulletFlyweight(ContentManager content)
     {
         _texture = content.Load<Texture2D>("bullet");
-        this.damage = 1.0;
+        this.damage = 1;
     }
 
-    public void Update()
+    public void Update(Game1 game)
     {
         // for bullet in ActiveBullets
         // this prepsat na ten konktretni ve foreach
-        foreach (IBullet _bullet in Game1.ActiveBullets)
+        foreach (IBullet _bullet in game.ActiveBullets)
         {
             // kontrola kolize s enemakem
-            foreach (IEnemy _enemy in Game1.ActiveEnemies)
+            foreach (IEnemy _enemy in game.ActiveEnemies)
             {
                 if ((_bullet.Position.X > _enemy.Position.X - Game1.EnemyHitboxWidth) &&
                     (_bullet.Position.X < _enemy.Position.X + Game1.EnemyHitboxWidth) &&
                     (_bullet.Position.Y > _enemy.Position.Y - Game1.EnemyHitboxHeight) &&
                     (_bullet.Position.Y < _enemy.Position.Y + Game1.EnemyHitboxHeight))
                 {
-                    _enemy.TakeDamage(this.damage);
+                    _enemy.TakeDamage(this.damage, game);
                 }
             }
 
@@ -90,6 +90,11 @@ public class BulletFlyweight : IBullet
                 _bullet.Delete();
             }
         }
+    }
+
+    public void Update()
+    {
+        throw new NotImplementedException();
     }
 
     public void Draw()

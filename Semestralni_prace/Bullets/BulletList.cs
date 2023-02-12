@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections;
 
 namespace Semestralni_prace;
 
@@ -17,7 +18,7 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
 {
     private static readonly object _lock = new object(); // k zajisteni pristupu ke konstruktoru pouze v jednom vlakne
     private static BulletList<IBullet> instance; // property na ukladani jedine instance BulletListu
-    private IBullet[] items;
+    private IBullet[] items = new IBullet[Game1.MaximumNumberOfVisualisedBullets];
 
     private BulletList() /* privatni konstruktor k zajisteni nevygenerovatelnosti nove instance */
     {
@@ -33,7 +34,7 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
                 {
                     if (instance == null)
                     {
-                        instance = new BulletList<T>();
+                        instance = new BulletList<IBullet>();
                     }
                 }
             }
@@ -43,7 +44,7 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
 
     public IEnumerator<IBullet> GetEnumerator()
     {
-        
+        return new MyEnumerator(items);
     }
     
     private class MyEnumerator : IEnumerator<IBullet>
@@ -96,5 +97,10 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
         public void Dispose()
         {
         }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }    
