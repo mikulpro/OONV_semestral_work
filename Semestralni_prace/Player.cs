@@ -9,23 +9,24 @@ using Microsoft.Xna.Framework.Content;
 namespace Semestralni_prace
 {
 
-    class Player
+    public class Player
     {
         public static readonly int PlayerAnimationFrameWidth = 48;
         public static readonly int PlayerAnimationFrameHeight = 48;
 
-        private float _shootDuration = 5*0.1f;
-        private float _shootDurationWalking = 8*0.1f;
+        private float _shootDuration = 5 * 0.1f;
+        private float _shootDurationWalking = 8 * 0.1f;
         private float _shootDelay = 0.1f;
         private float _shootDelayWalking = 2 * 0.1f;
-        
+
 
         public int Hp { get; }
         public int Attack { get; }
         public int Defense { get; }
-        
 
-        private Vector2 _position;
+
+        public Vector2 _position { get; set; }
+
         private Vector2 _velocity;
         
         private Dictionary<string, AnimatedSprite> _animatedSprites;
@@ -35,10 +36,9 @@ namespace Semestralni_prace
         private SpriteEffects _currentEffect;
         
 
-        public Player(Vector2 position)
+        // inicializace hrace
+        public Player()
         {
-            this._position = position;
-            
             _currentAnimation = "idle";
             _facingDirection = 1;
             _currentEffect = SpriteEffects.None;
@@ -49,7 +49,7 @@ namespace Semestralni_prace
             
         }
 
-        public void LoadContent(Dictionary<string, AnimatedSprite> animatedSprites)
+        private void LoadContent(Dictionary<string, AnimatedSprite> animatedSprites)
         {
             _animatedSprites = animatedSprites;
         }
