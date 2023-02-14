@@ -89,6 +89,14 @@ namespace Semestralni_prace
                 ActiveEnemies.Add(aef.CreateDragon(new Vector2(10, 10)));
                 ActiveEnemies.Add(bref.CreateDragon(new Vector2(10, 10)));
             }
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                
+                ActiveEnemies.Add(bef.CreateScorpion(new Vector2(10, 10)));
+                ActiveEnemies.Add(aef.CreateScorpion(new Vector2(10, 10)));
+                ActiveEnemies.Add(bref.CreateScorpion(new Vector2(10, 10)));
+            }
 
             foreach (var enemy in ActiveEnemies)
             {

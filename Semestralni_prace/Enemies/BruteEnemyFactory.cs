@@ -19,9 +19,11 @@ public class BruteEnemyFactory : IEnemyFactory
         return dragon;
     }
 
-    public GunMan CreateGunMan(Vector2 position)
+    public Scorpion CreateScorpion(Vector2 position)
     {
-        throw new System.NotImplementedException();
+        BruteScorpion scorpion = new BruteScorpion(position, _game);
+        scorpion.LoadSprite();
+        return scorpion;
     }
 
     public Ant CreateAnt(Vector2 position)

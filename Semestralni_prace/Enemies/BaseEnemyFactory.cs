@@ -16,9 +16,11 @@ public class BaseEnemyFactory : IEnemyFactory
         return dragon;
     }
 
-    public GunMan CreateGunMan(Vector2 position)
+    public Scorpion CreateScorpion(Vector2 position)
     {
-        throw new System.NotImplementedException();
+        BaseScorpion scorpion = new BaseScorpion(position, _game);
+        scorpion.LoadSprite();
+        return scorpion;
     }
 
     public Ant CreateAnt(Vector2 position)

@@ -18,9 +18,11 @@ public class AdvancedEnemyFactory : IEnemyFactory
         dragon.LoadSprites();
         return dragon;    }
 
-    public GunMan CreateGunMan(Vector2 position)
+    public Scorpion CreateScorpion(Vector2 position)
     {
-        throw new System.NotImplementedException();
+       AdvancedScorpion scorpion = new AdvancedScorpion(position, _game);
+        scorpion.LoadSprite();
+        return scorpion;
     }
 
     public Ant CreateAnt(Vector2 position)

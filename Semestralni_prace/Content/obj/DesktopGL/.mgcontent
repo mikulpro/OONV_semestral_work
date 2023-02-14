@@ -21,10 +21,12 @@
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/fire2.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/GreatWyvernIdleSide.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/LavaAntIdleSide.png</File>
+    <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/LethalScorpionIdleSide.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/GreatWyvernIdleSide.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/spritesheetlarger.webp</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
