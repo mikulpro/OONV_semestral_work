@@ -24,6 +24,7 @@ namespace Semestralni_prace
         public int Hp { get; }
         public int Attack { get; }
         public int Defense { get; }
+        public int Speed { get;  }
 
 
         public Vector2 Position { get; set; }
@@ -43,6 +44,7 @@ namespace Semestralni_prace
             _currentAnimation = "idle";
             _facingDirection = 1;
             _currentEffect = SpriteEffects.None;
+            Speed = 3;
         }
 
         public void Shoot()
@@ -50,7 +52,7 @@ namespace Semestralni_prace
             
         }
 
-        public void AcceptAttack(IEnemy enemy)
+        public void AcceptAttack(IEnemy enemy, int power)
         {
             // přidat logiku ubírání hp
         }
@@ -105,27 +107,27 @@ namespace Semestralni_prace
             // handle player input and update velocity
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                _velocity.X = 2;
+                _velocity.X = Speed;
                 _facingDirection = 1;
                 _currentAnimation = "walk";
                 anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                _velocity.X = -2;
+                _velocity.X = -Speed;
                 _facingDirection = -1;
                 _currentAnimation = "walk";
                 anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                _velocity.Y = 2;
+                _velocity.Y = Speed;
                 _currentAnimation = "walk";
                 anythingPressed = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                _velocity.Y = -2;
+                _velocity.Y = -Speed;
                 _currentAnimation = "walk";
                 anythingPressed = true;
             }

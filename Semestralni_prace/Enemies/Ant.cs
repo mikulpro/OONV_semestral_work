@@ -28,7 +28,7 @@ public abstract class Ant : Enemy
 
     public void Attack()
     {
-        _game.Player.AcceptAttack(this);
+        _game.Player.AcceptAttack(this, AttackPower);
         AttackCooldownCounter = AttackCooldown;
     }
 
