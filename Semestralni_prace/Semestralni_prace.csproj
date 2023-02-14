@@ -14,6 +14,7 @@
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
     <None Remove="SpriteFactory\**" />
+    <None Remove="Content\bin\DesktopGL\Content\Enemies\LavaAntIdleSide.xnb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
