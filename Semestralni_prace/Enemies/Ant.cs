@@ -31,10 +31,26 @@ public abstract class Ant : Enemy
         _game.Player.AcceptAttack(this, AttackPower);
         AttackCooldownCounter = AttackCooldown;
     }
+    
+    public override void BulletCollision(IBullet bullet, int amountOfDamage)
+    {
+        Random rand = new Random();
+        if (rand.Next(1, 5) == 3)
+        {
+            Dodge();
+        }
+        else
+        {
+            TakeDamage(amountOfDamage);   
+        }
+    }
 
     public void Dodge()
     {
-        
+        Random rnd = new Random();
+        int x = (int)Position.X + rnd.Next(0, (int)(30*Scale));
+        int y = (int)Position.Y + rnd.Next(0, (int)(30*Scale));
+        Position = new Vector2(x, y);
     }
     
     public override void Update(GameTime gameTime)

@@ -82,13 +82,13 @@ public abstract class Dragon : Enemy
                  Math.Abs(this.Position.Y - _game.Player.Position.Y - Player.PlayerAnimationFrameHeight/2) <= AttackReach/2)
                 
             {
-                if ((gameTime.ElapsedGameTime.Milliseconds % 5) == 0)
+                if (((gameTime.TotalGameTime.Milliseconds + Position.X + Position.Y) % 5) == 0)
                 {
                     FastAttack();
                 }
                 else
                 {
-                    Attack();   
+                    Attack();
                 }
                 
             }

@@ -10,6 +10,7 @@ public interface IEnemy
 {
     public int Hp { get; }
     public Vector2 Position { get; }
+    public void BulletCollision(IBullet bullet, int amountOfDamage);
     public void TakeDamage(int damage);
     public void Update(GameTime gameTime);
     public void Draw(SpriteBatch spriteBatch);
@@ -32,6 +33,11 @@ public abstract class Enemy : IEnemy
     public Color Color { get; protected set; }
     
     protected AnimatedSprite _animatedSprite;
+
+    public virtual void BulletCollision(IBullet bullet, int amountOfDamage)
+    {
+        TakeDamage(amountOfDamage);
+    }
 
     public void TakeDamage(int amountOfDamage) {
         {

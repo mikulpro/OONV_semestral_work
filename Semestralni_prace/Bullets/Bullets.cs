@@ -80,7 +80,7 @@ public class BulletFlyweight : IBullet
                     (_bullet.Position.Y > _enemy.Position.Y - Game1.EnemyHitboxHeight) &&
                     (_bullet.Position.Y < _enemy.Position.Y + Game1.EnemyHitboxHeight))
                 {
-                    _enemy.TakeDamage(this.damage);
+                    _enemy.BulletCollision(_bullet, this.damage);
                 }
             }
 
