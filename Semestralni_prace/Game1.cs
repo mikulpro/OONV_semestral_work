@@ -13,10 +13,10 @@ namespace Semestralni_prace
 {
     public class Game1 : Game
     {
-        public Player _player;
+        public Player Player;
         Texture2D _backgroundTile;
 
-        
+
         // je vhodne mit je jako public static, aby bylo mozne si je kdekoliv volat a nemusely s porad vkladat do funkci
         public static ContentManager _content;
         public static GraphicsDeviceManager _graphics;
@@ -40,8 +40,10 @@ namespace Semestralni_prace
 
         protected override void Initialize()
         {
-            _player = new Player();
-            _player._position = new Vector2(860, 540);
+            Player = new Player();
+            Player.Position = new Vector2(860, 540);
+
+            ActiveEnemies = new List<IEnemy>();
 
             base.Initialize();
         }
@@ -54,7 +56,7 @@ namespace Semestralni_prace
             _backgroundTile = Content.Load<Texture2D>("background_tile");
             
             // load player animations
-            _player.LoadContent(Content);
+            Player.LoadContent(Content);
             
             // load texture manager with textures
             TextureManager textureManager = TextureManager.Instance;
@@ -67,8 +69,19 @@ namespace Semestralni_prace
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _player.Update(gameTime);
+            Player.Update(gameTime);
 
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                BaseEnemyFactory bef = new BaseEnemyFactory(this);
+                ActiveEnemies.Add(bef.CreateAnt(new Vector2(10, 10)));
+            }
+
+            foreach (var enemy in ActiveEnemies)
+            {
+                enemy.Update(gameTime);
+            }
+            
             base.Update(gameTime);
         }
 
@@ -87,7 +100,13 @@ namespace Semestralni_prace
                 }
             }
     
-            _player.Draw(_spriteBatch);
+            Player.Draw(_spriteBatch);
+            
+            foreach (var enemy in ActiveEnemies)
+            {
+                enemy.Draw(_spriteBatch);
+            }
+
             
             _spriteBatch.End();
 

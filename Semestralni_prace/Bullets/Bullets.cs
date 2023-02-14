@@ -31,7 +31,7 @@ public class RegularBullet
 
     RegularBullet(Game1 game)
     {
-        this.Position = new Vector2(game._player._position.X, game._player._position.Y);
+        this.Position = new Vector2(game.Player.Position.X, game.Player.Position.Y);
     }
     
     void Update()
@@ -80,7 +80,7 @@ public class BulletFlyweight : IBullet
                     (_bullet.Position.Y > _enemy.Position.Y - Game1.EnemyHitboxHeight) &&
                     (_bullet.Position.Y < _enemy.Position.Y + Game1.EnemyHitboxHeight))
                 {
-                    _enemy.TakeDamage(this.damage, game);
+                    _enemy.TakeDamage(this.damage);
                 }
             }
 

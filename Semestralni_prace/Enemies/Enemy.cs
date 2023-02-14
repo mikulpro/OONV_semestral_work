@@ -8,14 +8,18 @@ namespace Semestralni_prace.Enemies;
 
 public interface IEnemy
 {
-    public int Health { get; set; }
-    public Vector2 Position { get; set; }
-    public void TakeDamage(int damage, Game1 game);
+    public int Hp { get; }
+    public Vector2 Position { get; }
+    public void TakeDamage(int damage);
+    public void Update(GameTime gameTime);
+    public void Draw(SpriteBatch spriteBatch);
+    public bool IsDeleted { get; }
 }
 
-public class Enemy : IEnemy
+/*
+public class Enemy :IEnemy
 {
-    public int Health { get; set; }
+    public int Hp { get; set; }
     public Vector2 Position { get; set; }
     public bool IsDeleted { get; set; }
 
@@ -26,14 +30,24 @@ public class Enemy : IEnemy
 
     public void TakeDamage(int amountOfDamage, Game1 game)
     {
-        if (this.Health - amountOfDamage <= 0)
+        if (this.Hp - amountOfDamage <= 0)
         {
             this.Delete(game);
         }
         else
         {
-            this.Health = this.Health - amountOfDamage;
+            this.Hp = this.Hp - amountOfDamage;
         }
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        throw new System.NotImplementedException();
     }
 
     public void Delete(Game1 game)
@@ -42,3 +56,4 @@ public class Enemy : IEnemy
         this.IsDeleted = true;
     }
 }
+*/

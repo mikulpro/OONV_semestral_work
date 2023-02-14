@@ -4,6 +4,11 @@ namespace Semestralni_prace.Enemies;
 
 public class BaseEnemyFactory : IEnemyFactory
 {
+    private Game1 _game;
+    public BaseEnemyFactory(Game1 game)
+    {
+        _game = game;
+    }
     public Dragon CreateDragon(Vector2 position)
     {
         throw new System.NotImplementedException();
@@ -16,6 +21,8 @@ public class BaseEnemyFactory : IEnemyFactory
 
     public Ant CreateAnt(Vector2 position)
     {
-        throw new System.NotImplementedException();
+       BaseAnt ant = new BaseAnt(position, _game);
+       ant.LoadSprite();
+       return ant;
     }
 }

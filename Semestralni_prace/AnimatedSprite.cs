@@ -52,7 +52,7 @@ public class AnimatedSprite
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect)
+    public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect, Color color)
     {
         int column = _currentFrame % (_spriteSheet.Width / _frameWidth);
         int row = _currentFrame / (_spriteSheet.Width / _frameWidth);
@@ -61,7 +61,7 @@ public class AnimatedSprite
         Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, _frameWidth, _frameHeight);
         Vector2 origin = new Vector2(0, 0); // top-left corner of the image
         
-        spriteBatch.Draw(_spriteSheet, position, sourceRectangle, Color.White,0, origin, Scale, spriteEffect,0);
+        spriteBatch.Draw(_spriteSheet, position, sourceRectangle, color,0, origin, Scale, spriteEffect,0);
         
     }
 }

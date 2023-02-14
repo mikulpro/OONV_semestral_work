@@ -25,7 +25,7 @@ namespace Semestralni_prace
         public int Defense { get; }
 
 
-        public Vector2 _position { get; set; }
+        public Vector2 Position { get; set; }
 
         private Vector2 _velocity;
         
@@ -156,15 +156,15 @@ namespace Semestralni_prace
 
 
             _animatedSprites[_currentAnimation].Update(gameTime);
-            if (!( (_position.X + _velocity.X < 0) || (_position.X + _velocity.X + PlayerAnimationFrameWidth*2 > Game1._graphics.GraphicsDevice.Viewport.Width) || (_position.Y + _velocity.Y < 0) || (_position.Y + _velocity.Y + PlayerAnimationFrameHeight*2 > Game1._graphics.GraphicsDevice.Viewport.Height) ))
+            if (!( (Position.X + _velocity.X < 0) || (Position.X + _velocity.X + PlayerAnimationFrameWidth*2 > Game1._graphics.GraphicsDevice.Viewport.Width) || (Position.Y + _velocity.Y < 0) || (Position.Y + _velocity.Y + PlayerAnimationFrameHeight*2 > Game1._graphics.GraphicsDevice.Viewport.Height) ))
             {
-                _position += _velocity;
+                Position += _velocity;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _animatedSprites[_currentAnimation].Draw(spriteBatch, _position, _currentEffect);
+            _animatedSprites[_currentAnimation].Draw(spriteBatch, Position, _currentEffect, Color.White);
         }
     }
 }
