@@ -70,15 +70,24 @@ namespace Semestralni_prace
                 Exit();
 
             Player.Update(gameTime);
+            
+            BaseEnemyFactory bef = new BaseEnemyFactory(this);
+            AdvancedEnemyFactory aef = new AdvancedEnemyFactory(this);
+            BruteEnemyFactory bref = new BruteEnemyFactory(this);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                BaseEnemyFactory bef = new BaseEnemyFactory(this);
-                AdvancedEnemyFactory aef = new AdvancedEnemyFactory(this);
-                BruteEnemyFactory bref = new BruteEnemyFactory(this);
+                
                 ActiveEnemies.Add(bef.CreateAnt(new Vector2(10, 10)));
                 ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
                 ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                
+                ActiveEnemies.Add(bef.CreateDragon(new Vector2(10, 10)));
+                //ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
+                //ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
             }
 
             foreach (var enemy in ActiveEnemies)
