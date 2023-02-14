@@ -7,6 +7,11 @@ namespace Semestralni_prace.Enemies;
 
 public class AdvancedEnemyFactory : IEnemyFactory
 {
+    private Game1 _game;
+    public AdvancedEnemyFactory(Game1 game)
+    {
+        _game = game;
+    }
     public Dragon CreateDragon(Vector2 position)
     {
         throw new System.NotImplementedException();
@@ -19,6 +24,8 @@ public class AdvancedEnemyFactory : IEnemyFactory
 
     public Ant CreateAnt(Vector2 position)
     {
-        throw new System.NotImplementedException();
+        AdvancedAnt ant = new AdvancedAnt(position, _game);
+        ant.LoadSprite();
+        return ant;
     }
 }

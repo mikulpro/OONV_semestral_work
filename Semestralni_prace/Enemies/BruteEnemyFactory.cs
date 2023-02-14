@@ -7,6 +7,11 @@ namespace Semestralni_prace.Enemies;
 
 public class BruteEnemyFactory : IEnemyFactory
 {
+    private Game1 _game;
+    public BruteEnemyFactory(Game1 game)
+    {
+        _game = game;
+    }
     public Dragon CreateDragon(Vector2 position)
     {
         throw new System.NotImplementedException();
@@ -19,6 +24,7 @@ public class BruteEnemyFactory : IEnemyFactory
 
     public Ant CreateAnt(Vector2 position)
     {
-        throw new System.NotImplementedException();
-    }
+        BruteAnt ant = new BruteAnt(position, _game);
+        ant.LoadSprite();
+        return ant;    }
 }

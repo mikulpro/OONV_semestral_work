@@ -74,7 +74,11 @@ namespace Semestralni_prace
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 BaseEnemyFactory bef = new BaseEnemyFactory(this);
+                AdvancedEnemyFactory aef = new AdvancedEnemyFactory(this);
+                BruteEnemyFactory bref = new BruteEnemyFactory(this);
                 ActiveEnemies.Add(bef.CreateAnt(new Vector2(10, 10)));
+                ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
+                ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
             }
 
             foreach (var enemy in ActiveEnemies)

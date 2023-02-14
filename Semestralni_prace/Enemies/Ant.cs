@@ -10,20 +10,8 @@ using Microsoft.Xna.Framework.Content;
 
 
 namespace Semestralni_prace.Enemies;
-public abstract class Ant : IEnemy
+public abstract class Ant : Enemy
 {
-    protected Game1 _game;
-    public int Hp { get; protected set; }
-    public int AttackPower { get; protected set; }
-    public float MaxSpeed { get; protected set; }
-    public int AttackCooldown { get; protected set; }
-    private int AttackCooldownCounter = 0;
-    public bool IsDeleted { get; protected set;  }
-
-    public Vector2 Position { get; protected set; }
-    public Color Color { get; protected set; }
-    
-    protected AnimatedSprite _animatedSprite;
     public void LoadSprite()
     {
         TextureManager textureManager = TextureManager.Instance;
@@ -35,14 +23,13 @@ public abstract class Ant : IEnemy
             16, 
             4, 
             0.1f, true,
-            new Vector2(2.0f, 2.0f));
+            new Vector2(Scale, Scale));
     }
 
     public void Attack()
     {
         _game.Player.AcceptAttack(this);
         AttackCooldownCounter = AttackCooldown;
-        Console.Write("útočí");
     }
 
     public void Dodge()
@@ -50,38 +37,32 @@ public abstract class Ant : IEnemy
         
     }
     
-    public void TakeDamage(int amountOfDamage) {
-        {
-            if (this.Hp - amountOfDamage <= 0)
-            {
-                this.Delete();
-            }
-            else
-            {
-                this.Hp = this.Hp - amountOfDamage;
-            }
-        }   
-    }
-
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
-        Vector2 Velocity = new Vector2();
+        int xdiff = (int)(_game.Player.Position.X - Position.X);
+        int ydiff = (int)(_game.Player.Position.Y - Position.Y);
+        double devider = Math.Sqrt(Math.Pow(xdiff, 2) + Math.Pow(ydiff, 2)) / MaxSpeed;
+        Vector2 velocity = new Vector2((int)(xdiff / devider), (int)(ydiff / devider));
 
-        int Xdiff = (int)(_game.Player.Position.X - Position.X);
-        int Ydiff = (int)(_game.Player.Position.Y - Position.Y);
-        double devider = Math.Sqrt(Math.Pow(Xdiff, 2) + Math.Pow(Ydiff, 2)) / MaxSpeed;
-        Velocity = new Vector2((int)(Xdiff / devider), (int)(Ydiff / devider));
+        if (xdiff < 0)
+        {
+            CurrentEffect = SpriteEffects.FlipHorizontally;
+        }
+        else
+        {
+            CurrentEffect = SpriteEffects.None;
+        }
 
         _animatedSprite.Update(gameTime);
 
-        Position += Velocity;
+        Position += velocity;
 
         if (AttackCooldownCounter <= 0)
         {
-            if ((this.Position.X > _game.Player.Position.X - Player.PlayerAnimationFrameWidth) &&
-                (this.Position.X < _game.Player.Position.X + Player.PlayerAnimationFrameWidth) &&
-                (this.Position.Y > _game.Player.Position.Y - Player.PlayerAnimationFrameHeight) &&
-                (this.Position.Y < _game.Player.Position.Y + Player.PlayerAnimationFrameHeight))
+            if ((this.Position.X + _animatedSprite.FrameWidth > _game.Player.Position.X - Player.PlayerAnimationFrameWidth/2) &&
+                (this.Position.X - _animatedSprite.FrameWidth < _game.Player.Position.X + Player.PlayerAnimationFrameWidth/2) &&
+                (this.Position.Y + _animatedSprite.FrameHeight > _game.Player.Position.Y - Player.PlayerAnimationFrameHeight/2) &&
+                (this.Position.Y - _animatedSprite.FrameHeight < _game.Player.Position.Y + Player.PlayerAnimationFrameHeight/2))
             {
                 Attack();
             }
@@ -92,18 +73,11 @@ public abstract class Ant : IEnemy
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        _animatedSprite.Draw(spriteBatch, Position, SpriteEffects.None, Color);
+        _animatedSprite.Draw(spriteBatch, Position, CurrentEffect, Color);
     }
-    
 
-    public void Delete()
-    {
-        _game.ActiveEnemies.Remove(this);
-        this.IsDeleted = true;
-    }
-    
 }
 
 
@@ -111,11 +85,12 @@ public class BaseAnt : Ant
 {
     public BaseAnt(Vector2 position, Game1 game)
     {
-        Color = Color.Gray;
+        Color = Color.White;
         Position = position;
         _game = game;
         MaxSpeed = 1.5f;
         AttackCooldown = 2000;
+        Scale = 2;
 
         Hp = 10;
         AttackPower = 1;
@@ -134,6 +109,7 @@ public class AdvancedAnt : Ant
         _game = game;
         MaxSpeed = 1.8f;
         AttackCooldown = 1000;
+        Scale = 3;
 
         Hp = 30;
         AttackPower = 3;
@@ -147,11 +123,12 @@ public class BruteAnt : Ant
 {
     public BruteAnt(Vector2 position, Game1 game)
     {
-        Color = Color.White;
+        Color = Color.IndianRed;
         Position = position;
         _game = game;
         MaxSpeed = 2;
         AttackCooldown = 500;
+        Scale = 4;
 
         Hp = 100;
         AttackPower = 5;

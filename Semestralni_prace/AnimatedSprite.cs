@@ -8,7 +8,7 @@ namespace Semestralni_prace;
 public class AnimatedSprite
 {
     private Texture2D _spriteSheet;
-    private int _frameWidth, _frameHeight;
+    public int FrameWidth, FrameHeight;
     private int _frameCount;
     private int _currentFrame;
     private float _frameTime;
@@ -20,8 +20,8 @@ public class AnimatedSprite
     public AnimatedSprite(Texture2D spriteSheet, int frameWidth, int frameHeight, int frameCount, float frameTime, bool isLooping, Vector2 scale)
     {
         _spriteSheet = spriteSheet;
-        _frameWidth = frameWidth;
-        _frameHeight = frameHeight;
+        FrameWidth = frameWidth;
+        FrameHeight = frameHeight;
         _frameCount = frameCount;
         _frameTime = frameTime;
         _isLooping = isLooping;
@@ -54,11 +54,11 @@ public class AnimatedSprite
 
     public void Draw(SpriteBatch spriteBatch, Vector2 position, SpriteEffects spriteEffect, Color color)
     {
-        int column = _currentFrame % (_spriteSheet.Width / _frameWidth);
-        int row = _currentFrame / (_spriteSheet.Width / _frameWidth);
+        int column = _currentFrame % (_spriteSheet.Width / FrameWidth);
+        int row = _currentFrame / (_spriteSheet.Width / FrameWidth);
 
-        Rectangle sourceRectangle = new Rectangle(column * _frameWidth, row * _frameHeight, _frameWidth, _frameHeight);
-        Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, _frameWidth, _frameHeight);
+        Rectangle sourceRectangle = new Rectangle(column * FrameWidth, row * FrameHeight, FrameWidth, FrameHeight);
+        Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, FrameWidth, FrameHeight);
         Vector2 origin = new Vector2(0, 0); // top-left corner of the image
         
         spriteBatch.Draw(_spriteSheet, position, sourceRectangle, color,0, origin, Scale, spriteEffect,0);
