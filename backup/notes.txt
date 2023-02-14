@@ -1,9 +1,0 @@
-﻿
-### Odkazy ###
-https://docs.monogame.net/articles/tools/mgcb_editor.html
-http://rbwhitaker.wikidot.com/monogame-2d-tutorials
-# Kolize
-https://community.monogame.net/t/best-way-to-handle-collisions/9951/6
-https://en.wikipedia.org/wiki/Quadtree
-https://www.monogameextended.net/docs/features/collision/collision/
-Trex
