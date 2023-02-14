@@ -14,8 +14,9 @@ public class AdvancedEnemyFactory : IEnemyFactory
     }
     public Dragon CreateDragon(Vector2 position)
     {
-        throw new System.NotImplementedException();
-    }
+        AdvancedDragon dragon = new AdvancedDragon(position, _game);
+        dragon.LoadSprites();
+        return dragon;    }
 
     public GunMan CreateGunMan(Vector2 position)
     {

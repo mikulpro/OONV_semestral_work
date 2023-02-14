@@ -77,9 +77,9 @@ public abstract class Dragon : Enemy
 
         if (AttackCooldownCounter <= 0)
         {
-            if (Math.Abs(this.Position.X  - _game.Player.Position.X) <= AttackReach
+            if (Math.Abs(this.Position.X - _game.Player.Position.X - Player.PlayerAnimationFrameWidth/2 ) <= AttackReach
                  &&
-                 Math.Abs(this.Position.Y - _game.Player.Position.Y) <= AttackReach)
+                 Math.Abs(this.Position.Y - _game.Player.Position.Y - Player.PlayerAnimationFrameHeight/2) <= AttackReach/2)
                 
             {
                 if ((gameTime.ElapsedGameTime.Milliseconds % 5) == 0)
@@ -102,6 +102,7 @@ public abstract class Dragon : Enemy
         {
             FireAnimationCounter -= gameTime.ElapsedGameTime.Milliseconds;
         }
+        
     }
     
     public override void Draw(SpriteBatch spriteBatch)
@@ -109,7 +110,17 @@ public abstract class Dragon : Enemy
         _animatedSprite.Draw(spriteBatch, Position, CurrentEffect, Color);
         if (FireAnimationCounter >= 0)
         {
-            FireSprite.Draw(spriteBatch, Position, CurrentEffect, Color);
+            Vector2 fire_position;
+            if (CurrentEffect == SpriteEffects.FlipHorizontally)
+            {
+                fire_position = new Vector2(Position.X - 30*Scale, Position.Y);
+            }
+            else
+            {
+                fire_position = new Vector2(Position.X + 15*Scale, Position.Y);
+            }
+            
+            FireSprite.Draw(spriteBatch, fire_position, CurrentEffect, Color.White);
         }
     }
 }
@@ -129,8 +140,52 @@ public class BaseDragon : Dragon
         Scale = 2;
         AttackReach = 70;
 
-        Hp = 10;
+        Hp = 20;
         AttackPower = 1;
+        LoadSprites();
+    }
+    
+    
+}
+
+public class AdvancedDragon : Dragon
+{
+    public AdvancedDragon(Vector2 position, Game1 game)
+    {
+        Color = Color.Yellow;
+        Position = position;
+        _game = game;
+        MaxSpeed = 2;
+        AttackCooldown = 2000;
+        FastAttackCooldown = 800;
+        FireAnimationDuration = 500;
+        Scale = 3;
+        AttackReach = 100;
+
+        Hp = 100;
+        AttackPower = 10;
+        LoadSprites();
+    }
+    
+    
+}
+
+public class BruteDragon : Dragon
+{
+    public BruteDragon(Vector2 position, Game1 game)
+    {
+        Color = Color.IndianRed;
+        Position = position;
+        _game = game;
+        MaxSpeed = 1.8f;
+        AttackCooldown = 2500;
+        FastAttackCooldown = 500;
+        FireAnimationDuration = 500;
+        Scale = 5;
+        AttackReach = 150;
+
+        Hp = 500;
+        AttackPower = 20;
         LoadSprites();
     }
     

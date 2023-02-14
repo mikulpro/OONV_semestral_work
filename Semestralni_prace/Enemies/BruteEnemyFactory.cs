@@ -14,7 +14,9 @@ public class BruteEnemyFactory : IEnemyFactory
     }
     public Dragon CreateDragon(Vector2 position)
     {
-        throw new System.NotImplementedException();
+        BruteDragon dragon = new BruteDragon(position, _game);
+        dragon.LoadSprites();
+        return dragon;
     }
 
     public GunMan CreateGunMan(Vector2 position)

@@ -86,8 +86,8 @@ namespace Semestralni_prace
             {
                 
                 ActiveEnemies.Add(bef.CreateDragon(new Vector2(10, 10)));
-                //ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
-                //ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
+                ActiveEnemies.Add(aef.CreateDragon(new Vector2(10, 10)));
+                ActiveEnemies.Add(bref.CreateDragon(new Vector2(10, 10)));
             }
 
             foreach (var enemy in ActiveEnemies)
