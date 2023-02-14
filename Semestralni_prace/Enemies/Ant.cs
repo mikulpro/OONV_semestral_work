@@ -16,6 +16,8 @@ public abstract class Ant : IEnemy
     public int Hp { get; protected set; }
     public int AttackPower { get; protected set; }
     public float MaxSpeed { get; protected set; }
+    public int AttackCooldown { get; protected set; }
+    private int AttackCooldownCounter = 0;
     public bool IsDeleted { get; protected set;  }
 
     public Vector2 Position { get; protected set; }
@@ -38,7 +40,9 @@ public abstract class Ant : IEnemy
 
     public void Attack()
     {
-        
+        _game.Player.AcceptAttack(this);
+        AttackCooldownCounter = AttackCooldown;
+        Console.Write("útočí");
     }
 
     public void Dodge()
@@ -62,16 +66,31 @@ public abstract class Ant : IEnemy
     public void Update(GameTime gameTime)
     {
         Vector2 Velocity = new Vector2();
-       
+
         int Xdiff = (int)(_game.Player.Position.X - Position.X);
         int Ydiff = (int)(_game.Player.Position.Y - Position.Y);
-        double devider = Math.Sqrt(Math.Pow(Xdiff, 2)+Math.Pow(Ydiff, 2))/1.5;
+        double devider = Math.Sqrt(Math.Pow(Xdiff, 2) + Math.Pow(Ydiff, 2)) / MaxSpeed;
         Velocity = new Vector2((int)(Xdiff / devider), (int)(Ydiff / devider));
-            
+
         _animatedSprite.Update(gameTime);
-        
+
         Position += Velocity;
+
+        if (AttackCooldownCounter <= 0)
+        {
+            if ((this.Position.X > _game.Player.Position.X - Player.PlayerAnimationFrameWidth) &&
+                (this.Position.X < _game.Player.Position.X + Player.PlayerAnimationFrameWidth) &&
+                (this.Position.Y > _game.Player.Position.Y - Player.PlayerAnimationFrameHeight) &&
+                (this.Position.Y < _game.Player.Position.Y + Player.PlayerAnimationFrameHeight))
+            {
+                Attack();
+            }
         }
+        else
+        {
+            AttackCooldownCounter -= gameTime.ElapsedGameTime.Milliseconds;
+        }
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {
@@ -95,6 +114,8 @@ public class BaseAnt : Ant
         Color = Color.Gray;
         Position = position;
         _game = game;
+        MaxSpeed = 1.5f;
+        AttackCooldown = 2000;
 
         Hp = 10;
         AttackPower = 1;
@@ -111,6 +132,8 @@ public class AdvancedAnt : Ant
         Color = Color.DarkGray;
         Position = position;
         _game = game;
+        MaxSpeed = 1.8f;
+        AttackCooldown = 1000;
 
         Hp = 30;
         AttackPower = 3;
@@ -127,6 +150,8 @@ public class BruteAnt : Ant
         Color = Color.White;
         Position = position;
         _game = game;
+        MaxSpeed = 2;
+        AttackCooldown = 500;
 
         Hp = 100;
         AttackPower = 5;

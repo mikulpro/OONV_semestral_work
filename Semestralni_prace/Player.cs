@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Semestralni_prace.Enemies;
 
 
 namespace Semestralni_prace
@@ -47,6 +48,11 @@ namespace Semestralni_prace
         public void Shoot()
         {
             
+        }
+
+        public void AcceptAttack(IEnemy enemy)
+        {
+            // přidat logiku ubírání hp
         }
 
         public void LoadContent(ContentManager content)

@@ -17,7 +17,7 @@ public interface IEnemy
 }
 
 /*
-public class Enemy :IEnemy
+public abstract class Enemy :IEnemy
 {
     public int Hp { get; set; }
     public Vector2 Position { get; set; }
