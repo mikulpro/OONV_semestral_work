@@ -19,11 +19,25 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
     private static readonly object _lock = new object(); // k zajisteni pristupu ke konstruktoru pouze v jednom vlakne
     private static BulletList<IBullet> instance; // property na ukladani jedine instance BulletListu
     private IBullet[] items = new IBullet[Game1.MaximumNumberOfVisualisedBullets];
-
+    public int NumberOfBulletsActive = 0; 
+    
     private BulletList() /* privatni konstruktor k zajisteni nevygenerovatelnosti nove instance */
     {
     }
 
+    public void Add(IBullet item)
+    {
+        if (this.NumberOfBulletsActive >= Game1.MaximumNumberOfVisualisedBullets)
+        {
+           return; 
+        }
+        else
+        {
+            this.NumberOfBulletsActive += 1;
+            return;
+        }
+    }
+    
     public static BulletList<IBullet> Instance
     {
         get
