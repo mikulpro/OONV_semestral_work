@@ -7,6 +7,7 @@
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/ArcheologistShooting.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/background_tile.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/ball.png</File>
+    <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/bullet.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoyDrawWeapon.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoyHolsterWeapon.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoyIdle.png</File>
@@ -16,10 +17,17 @@
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoyShootWalking.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoySmokingIdle.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/CowBoyWalking.png</File>
+    <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/ArcheologistShooting.png</File>
+    <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/GreatWyvernIdleSide.png</File>
+    <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/Enemies/LavaAntIdleSide.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/GreatWyvernIdleSide.png</File>
     <File>/home/doctordehi/dev/skola/OONV/OONV_semestral_work/Semestralni_prace/Content/spritesheetlarger.webp</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

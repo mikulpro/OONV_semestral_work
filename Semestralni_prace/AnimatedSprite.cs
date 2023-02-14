@@ -5,7 +5,7 @@ using MonoGame.Aseprite.Graphics;
 
 namespace Semestralni_prace;
 
-class AnimatedSprite
+public class AnimatedSprite
 {
     private Texture2D _spriteSheet;
     private int _frameWidth, _frameHeight;

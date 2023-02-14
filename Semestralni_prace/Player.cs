@@ -49,10 +49,6 @@ namespace Semestralni_prace
             
         }
 
-        private void LoadContent(Dictionary<string, AnimatedSprite> animatedSprites)
-        {
-            _animatedSprites = animatedSprites;
-        }
         public void LoadContent(ContentManager content)
         {
             _animatedSprites = new Dictionary<string, AnimatedSprite>();

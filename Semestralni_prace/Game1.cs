@@ -56,6 +56,10 @@ namespace Semestralni_prace
             // load player animations
             _player.LoadContent(Content);
             
+            // load texture manager with textures
+            TextureManager textureManager = TextureManager.Instance;
+            textureManager.Load(_content);
+
         }
 
         protected override void Update(GameTime gameTime)
