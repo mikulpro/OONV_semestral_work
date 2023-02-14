@@ -11,8 +11,13 @@ namespace Semestralni_prace.Enemies;
 public abstract class Dragon : Enemy
 {
     public int FastAttackCooldown;
+    public int AttackReach;
 
-    public void LoadSprite()
+    protected AnimatedSprite FireSprite;
+    protected int FireAnimationDuration;
+    protected int FireAnimationCounter;
+
+    public void LoadSprites()
     {
         TextureManager textureManager = TextureManager.Instance;
         Texture2D texture = textureManager.GetTexture("dragon");
@@ -24,18 +29,30 @@ public abstract class Dragon : Enemy
             4, 
             0.1f, true,
             new Vector2(Scale, Scale));
+
+        Texture2D fire_texture = textureManager.GetTexture("fire");
+
+        FireSprite = new AnimatedSprite(
+            fire_texture,
+            30,
+            12,
+            6,
+            0.05f, true,
+            new Vector2(Scale, Scale));
     }
 
     public void Attack()
     {
         _game.Player.AcceptAttack(this, AttackPower);
         AttackCooldownCounter = AttackCooldown;
+        FireAnimationCounter = FireAnimationDuration;
     }
 
     public void FastAttack()
     {
         _game.Player.AcceptAttack(this, AttackPower/2);
         AttackCooldownCounter = FastAttackCooldown;
+        FireAnimationCounter = FireAnimationDuration;
     }
 
     public override void Update(GameTime gameTime)
@@ -60,27 +77,40 @@ public abstract class Dragon : Enemy
 
         if (AttackCooldownCounter <= 0)
         {
-            if ((this.Position.X + _animatedSprite.FrameWidth >
-                 _game.Player.Position.X - Player.PlayerAnimationFrameWidth / 2) &&
-                (this.Position.X - _animatedSprite.FrameWidth <
-                 _game.Player.Position.X + Player.PlayerAnimationFrameWidth / 2) &&
-                (this.Position.Y + _animatedSprite.FrameHeight >
-                 _game.Player.Position.Y - Player.PlayerAnimationFrameHeight / 2) &&
-                (this.Position.Y - _animatedSprite.FrameHeight <
-                 _game.Player.Position.Y + Player.PlayerAnimationFrameHeight / 2))
+            if (Math.Abs(this.Position.X  - _game.Player.Position.X) <= AttackReach
+                 &&
+                 Math.Abs(this.Position.Y - _game.Player.Position.Y) <= AttackReach)
+                
             {
-                Attack();
+                if ((gameTime.ElapsedGameTime.Milliseconds % 5) == 0)
+                {
+                    FastAttack();
+                }
+                else
+                {
+                    Attack();   
+                }
+                
             }
         }
         else
         {
             AttackCooldownCounter -= gameTime.ElapsedGameTime.Milliseconds;
         }
+
+        if (FireAnimationCounter >= 0)
+        {
+            FireAnimationCounter -= gameTime.ElapsedGameTime.Milliseconds;
+        }
     }
     
     public override void Draw(SpriteBatch spriteBatch)
     {
         _animatedSprite.Draw(spriteBatch, Position, CurrentEffect, Color);
+        if (FireAnimationCounter >= 0)
+        {
+            FireSprite.Draw(spriteBatch, Position, CurrentEffect, Color);
+        }
     }
 }
 
@@ -95,11 +125,13 @@ public class BaseDragon : Dragon
         MaxSpeed = 1.7f;
         AttackCooldown = 3000;
         FastAttackCooldown = 1000;
+        FireAnimationDuration = 500;
         Scale = 2;
+        AttackReach = 70;
 
         Hp = 10;
         AttackPower = 1;
-        LoadSprite();
+        LoadSprites();
     }
     
     

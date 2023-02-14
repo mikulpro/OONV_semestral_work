@@ -45,9 +45,12 @@ public class TextureManager
     public void Load(ContentManager contentManager)
     {
         _textures.Add("bullet", contentManager.Load<Texture2D>("bullet"));
+        _textures.Add("fire", contentManager.Load<Texture2D>("Enemies/fire2"));
+        
         _textures.Add("ant", contentManager.Load<Texture2D>("Enemies/LavaAntIdleSide"));
         _textures.Add("dragon", contentManager.Load<Texture2D>("Enemies/GreatWyvernIdleSide"));
         _textures.Add("gunman", contentManager.Load<Texture2D>("Enemies/ArcheologistShooting"));
+        
         _loaded = true;
     }
 

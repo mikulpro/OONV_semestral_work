@@ -12,7 +12,7 @@ public class BaseEnemyFactory : IEnemyFactory
     public Dragon CreateDragon(Vector2 position)
     {
         BaseDragon dragon = new BaseDragon(position, _game);
-        dragon.LoadSprite();
+        dragon.LoadSprites();
         return dragon;
     }
 
