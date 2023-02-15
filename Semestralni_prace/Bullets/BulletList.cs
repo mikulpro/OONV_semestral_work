@@ -18,23 +18,33 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
 {
     private static readonly object _lock = new object(); // k zajisteni pristupu ke konstruktoru pouze v jednom vlakne
     private static BulletList<IBullet> instance; // property na ukladani jedine instance BulletListu
-    private IBullet[] items = new IBullet[Game1.MaximumNumberOfVisualisedBullets];
+    private List<IBullet> items = new List<IBullet>();
     public int NumberOfBulletsActive = 0; 
     
     private BulletList() /* privatni konstruktor k zajisteni nevygenerovatelnosti nove instance */
     {
     }
 
-    public void Add(IBullet item)
+    public void Add(IBullet item, Game1 game)
     {
-        if (this.NumberOfBulletsActive >= Game1.MaximumNumberOfVisualisedBullets)
+        if (this.NumberOfBulletsActive >= game.MaximumNumberOfVisualisedBullets)
         {
            return; 
         }
         else
         {
             this.NumberOfBulletsActive += 1;
+            this.items.Add(item);
             return;
+        }
+    }
+
+    public void Remove(IBullet item)
+    {
+        if (this.NumberOfBulletsActive >= 1)
+        {
+            this.items.Remove(item);
+            this.NumberOfBulletsActive -= 1;
         }
     }
     
@@ -58,7 +68,7 @@ public sealed class BulletList<IBullet> : IEnumerable<IBullet> // singleton
 
     public IEnumerator<IBullet> GetEnumerator()
     {
-        return new MyEnumerator(items);
+        return new MyEnumerator(items.ToArray());
     }
     
     private class MyEnumerator : IEnumerator<IBullet>

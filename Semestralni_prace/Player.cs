@@ -98,7 +98,7 @@ namespace Semestralni_prace
 
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Game1 game)
         {
             _velocity.X = 0;
             _velocity.Y = 0;
@@ -132,7 +132,7 @@ namespace Semestralni_prace
                 anythingPressed = true;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) || (Mouse.GetState().LeftButton == ButtonState.Pressed))
             {
                 if (anythingPressed)
                 {
@@ -164,7 +164,7 @@ namespace Semestralni_prace
 
 
             _animatedSprites[_currentAnimation].Update(gameTime);
-            if (!( (Position.X + _velocity.X < 0) || (Position.X + _velocity.X + PlayerAnimationFrameWidth*2 > Game1._graphics.GraphicsDevice.Viewport.Width) || (Position.Y + _velocity.Y < 0) || (Position.Y + _velocity.Y + PlayerAnimationFrameHeight*2 > Game1._graphics.GraphicsDevice.Viewport.Height) ))
+            if (!( (Position.X + _velocity.X < 0) || (Position.X + _velocity.X + PlayerAnimationFrameWidth*2 > game._graphics.GraphicsDevice.Viewport.Width) || (Position.Y + _velocity.Y < 0) || (Position.Y + _velocity.Y + PlayerAnimationFrameHeight*2 > game._graphics.GraphicsDevice.Viewport.Height) ))
             {
                 Position += _velocity;
             }
