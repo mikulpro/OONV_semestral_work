@@ -77,7 +77,6 @@ namespace Semestralni_prace
             this.bef = new BaseEnemyFactory(this);
             this.aef = new AdvancedEnemyFactory(this);
             this.bref = new BruteEnemyFactory(this);
-            this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(this._content, this, this.bulletTexture, 1, 7));
 
             base.Initialize();
         }
@@ -101,6 +100,18 @@ namespace Semestralni_prace
 
         protected override void Update(GameTime gameTime)
         {
+            // tvorba bullet factory, pokud neexistuje
+            if (this.bf == null)
+            {
+                this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(
+                    this._content, 
+                    this, 
+                    this.bulletTexture, 
+                    10, 
+                    70,
+                    10));
+            }
+            
             // konec Escapem
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -255,7 +266,6 @@ namespace Semestralni_prace
             _spriteBatch.Begin();
             
             // vykresleni pozadi
-            /*
             for (int x = 0; x < GraphicsDevice.Viewport.Width; x += _backgroundTile.Width)
             {
                 for (int y = 0; y < GraphicsDevice.Viewport.Height; y += _backgroundTile.Height)
@@ -263,8 +273,7 @@ namespace Semestralni_prace
                     _spriteBatch.Draw(_backgroundTile, new Vector2(x, y), Color.White);
                 }
             }
-            */
-    
+
             // vykresleni hrace
             Player.Draw(_spriteBatch);
             
