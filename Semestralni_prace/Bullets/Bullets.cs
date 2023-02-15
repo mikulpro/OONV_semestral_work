@@ -85,19 +85,19 @@ public class BulletFlyweight
     public void Update(GameTime gameTime, IBullet _bullet)
     {
         game = this.game;
-        
+
         // kontrola existence
         if (_bullet.IsDeleted)
         {
             return;
         }
-        
+
         // spocitani nove pozice
         float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         float timeDiff = elapsedTime - _bullet.previousGameTime;
         Vector2 Velocity = new Vector2((float)Math.Cos(_bullet.Angle), (float)Math.Sin(_bullet.Angle)) * this.Speed;
         _bullet.Position = _bullet.Position + (Velocity * timeDiff);
-        
+
         // kontrola kolize s enemakem
         foreach (var enemy in game.ActiveEnemies)
         {
@@ -108,12 +108,13 @@ public class BulletFlyweight
                 _bullet.Delete();
             }
         }
-        
+
         // kontrola hranic okna
-        if (!( (_bullet.Position.X < 0) || 
-               (_bullet.Position.X + BulletAnimationFrameWidth*2 > game._graphics.GraphicsDevice.Viewport.Width) || 
-               (_bullet.Position.Y < 0) || 
-               (_bullet.Position.Y + BulletAnimationFrameHeight*2 > game._graphics.GraphicsDevice.Viewport.Height) ))
+        if (((_bullet.Position.X < -1920) ||
+             (_bullet.Position.X + BulletAnimationFrameWidth * 2 > game._graphics.GraphicsDevice.Viewport.Width * 2) ||
+             (_bullet.Position.Y < -1080) ||
+             (_bullet.Position.Y + BulletAnimationFrameHeight * 2 >
+              game._graphics.GraphicsDevice.Viewport.Height * 2)))
         {
             _bullet.Delete();
         }
