@@ -173,6 +173,14 @@ namespace Semestralni_prace
         public void Draw(SpriteBatch spriteBatch)
         {
             _animatedSprites[_currentAnimation].Draw(spriteBatch, Position, _currentEffect, Color.White);
+
+            Texture2D pixelTexture = TextureManager.Instance.GetTexture("red_pixel");
+            // Draw the health bar background
+            spriteBatch.Draw(pixelTexture, new Rectangle((int)Position.X + PlayerAnimationFrameWidth/2, (int)Position.Y-20, 80, 10), Color.Gray);
+
+
+            // Draw the current health level
+            spriteBatch.Draw(pixelTexture, new Rectangle((int)Position.X + PlayerAnimationFrameWidth/2, (int)Position.Y-20, (int)(Hp / (float)100 * 80), 10), Color.Red);
         }
     }
 }

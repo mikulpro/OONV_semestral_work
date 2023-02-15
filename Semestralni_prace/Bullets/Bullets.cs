@@ -110,10 +110,10 @@ public class BulletFlyweight
         }
         
         // kontrola hranic okna
-        if (!( (_bullet.Position.X < 0) || 
+        if ((_bullet.Position.X < 0) || 
                (_bullet.Position.X + BulletAnimationFrameWidth*2 > game._graphics.GraphicsDevice.Viewport.Width) || 
                (_bullet.Position.Y < 0) || 
-               (_bullet.Position.Y + BulletAnimationFrameHeight*2 > game._graphics.GraphicsDevice.Viewport.Height) ))
+               (_bullet.Position.Y + BulletAnimationFrameHeight*2 > game._graphics.GraphicsDevice.Viewport.Height))
         {
             _bullet.Delete();
         }

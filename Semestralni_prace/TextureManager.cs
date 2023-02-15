@@ -52,6 +52,8 @@ public class TextureManager
         _textures.Add("scorpion", contentManager.Load<Texture2D>("Enemies/LethalScorpionIdleSide"));
         _textures.Add("gunman", contentManager.Load<Texture2D>("Enemies/ArcheologistShooting"));
         
+        _textures.Add("red_pixel", contentManager.Load<Texture2D>("red_pixel"));
+
         _loaded = true;
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -87,7 +88,7 @@ namespace Semestralni_prace
             _content = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _backgroundTile = Content.Load<Texture2D>("background_tile");
-            this.bulletTexture = this._content.Load<Texture2D>("bullet");
+            this.bulletTexture = Content.Load<Texture2D>("bullet");
             
             // load player animations
             Player.LoadContent(Content);
