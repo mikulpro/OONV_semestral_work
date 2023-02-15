@@ -102,7 +102,13 @@ namespace Semestralni_prace
             // tvorba bullet factory, pokud neexistuje
             if (this.bf == null)
             {
-                this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(this._content, this, this.bulletTexture, 1, 7));
+                this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(
+                    this._content, 
+                    this, 
+                    this.bulletTexture, 
+                    10, 
+                    70,
+                    10));
             }
             
             // konec Escapem
