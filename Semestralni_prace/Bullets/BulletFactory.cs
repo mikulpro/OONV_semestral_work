@@ -33,6 +33,7 @@ public class BulletFactory
         bullet.Position = inPosition;
         bullet.Angle = inAngle;
         bullet.FlyweightReference = this.flyweight;
+        bullet.IsDeleted = false;
 
         if (this.game.ActiveBullets.NumberOfBulletsActive + 1 >= this.game.MaximumNumberOfVisualisedBullets)
         {

@@ -28,6 +28,8 @@ namespace Semestralni_prace
         private BruteEnemyFactory bref;
         public BulletFactory bf;
         public GameTime gameTime;
+        private Texture2D bulletTexture;
+        
         public Vector2 GenerateRandomVector2(float minX, float maxX, float minY, float maxY, Player hrac,
             int SafeRegion)
         {
@@ -74,6 +76,7 @@ namespace Semestralni_prace
             this.bef = new BaseEnemyFactory(this);
             this.aef = new AdvancedEnemyFactory(this);
             this.bref = new BruteEnemyFactory(this);
+            this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(this._content, this, this.bulletTexture, 1, 7));
 
             base.Initialize();
         }
@@ -84,6 +87,7 @@ namespace Semestralni_prace
             _content = new ContentManager(Services, "Content");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _backgroundTile = Content.Load<Texture2D>("background_tile");
+            this.bulletTexture = this._content.Load<Texture2D>("bullet");
             
             // load player animations
             Player.LoadContent(Content);
@@ -96,12 +100,6 @@ namespace Semestralni_prace
 
         protected override void Update(GameTime gameTime)
         {
-            // prirazeni BulletFactory, pokud jeste neexistuje
-            if (this.bf == null)
-            {
-                this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(this._content, this, this._content.Load<Texture2D>("bullet"), 1, 7));
-            }
-            
             // konec Escapem
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -137,6 +135,12 @@ namespace Semestralni_prace
                 ActiveEnemies.Add(aef.CreateScorpion(new Vector2(10, 10)));
                 ActiveEnemies.Add(bref.CreateScorpion(new Vector2(10, 10)));
             }
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.B))
+            {
+
+                ActiveBullets.Add(bf.GetRegularBullet(new Vector2(10, 10), MathHelper.ToRadians(270)), this);
+            }
 
             // aktivovani novych enemaku, pokud je cas
             float minX = 50;
@@ -144,10 +148,10 @@ namespace Semestralni_prace
             float minY = 50;
             float maxY = 1030;
             int SafeRegion = 50;
-            UInt64 elapsedTime = (UInt64)gameTime.ElapsedGameTime.TotalSeconds;
-            bool ant_s = (elapsedTime % (UInt64)2 == (UInt64)1);
-            bool ant_m = (elapsedTime % (UInt64)10 == (UInt64)1);
-            bool ant_l = (elapsedTime % (UInt64)30 == (UInt64)1);
+            int elapsedTime = (int)gameTime.ElapsedGameTime.TotalSeconds;
+            bool ant_s = (elapsedTime % 2 == 1);
+            bool ant_m = (elapsedTime % 10 == 1);
+            bool ant_l = (elapsedTime % 30 == 1);
             bool dragon_s = false;
             bool dragon_m = false;
             bool dragon_l = false;
@@ -227,7 +231,7 @@ namespace Semestralni_prace
                 float deltaX = mousePosition.X - Player.Position.X;
                 float deltaY = mousePosition.Y - Player.Position.Y;
                 float bulletAngle = (float)Math.Atan2(deltaY, deltaX);
-                ActiveBullets.Add(bf.GetRegularBullet(Player.Position,bulletAngle), this);
+                ActiveBullets.Add(bf.GetRegularBullet(Player.Position, bulletAngle), this);
             }
             
             // update aktivnich kulek
@@ -250,6 +254,7 @@ namespace Semestralni_prace
             _spriteBatch.Begin();
             
             // vykresleni pozadi
+            /*
             for (int x = 0; x < GraphicsDevice.Viewport.Width; x += _backgroundTile.Width)
             {
                 for (int y = 0; y < GraphicsDevice.Viewport.Height; y += _backgroundTile.Height)
@@ -257,6 +262,7 @@ namespace Semestralni_prace
                     _spriteBatch.Draw(_backgroundTile, new Vector2(x, y), Color.White);
                 }
             }
+            */
     
             // vykresleni hrace
             Player.Draw(_spriteBatch);
@@ -270,9 +276,12 @@ namespace Semestralni_prace
             // vykresleni projektilu
             foreach (var bullet in ActiveBullets)
             {
+                bullet.Draw(_spriteBatch);
+                
                 if (!bullet.IsDeleted)
                 {
-                    bullet.Draw();
+                    bullet.Draw(_spriteBatch);
+                    _spriteBatch.Draw(bulletTexture, bullet.Position, Color.White);
                 }
             }
             

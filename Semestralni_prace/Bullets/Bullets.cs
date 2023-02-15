@@ -24,7 +24,7 @@ public interface IBullet
 
     public void Update(GameTime gameTime);
 
-    public void Draw();
+    public void Draw(SpriteBatch spriteBatch);
 
     public void Delete();
 }
@@ -49,10 +49,10 @@ public class RegularBullet : IBullet
         this.FlyweightReference.Update(gameTime, this);
     }
 
-    public void Draw()
+    public void Draw(SpriteBatch _spriteBatch)
     {
         Game1 game = this.FlyweightReference.game;
-        game._spriteBatch.Draw(this.FlyweightReference._texture, this.Position, Color.White);
+        _spriteBatch.Draw(this.FlyweightReference._texture, this.Position, Color.White);
     }
 
     public void Delete()
@@ -119,13 +119,13 @@ public class BulletFlyweight
         }
     }
 
-    public void Draw()
+    public void Draw(SpriteBatch _spriteBatch)
     {
         foreach (var item in game.ActiveBullets)
         {
             if (!item.IsDeleted)
             {
-                item.Draw();
+                item.Draw(_spriteBatch);
             }
         }    
     }
