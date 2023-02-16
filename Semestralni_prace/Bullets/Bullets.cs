@@ -51,8 +51,9 @@ public class RegularBullet : IBullet
 
     public void Draw(SpriteBatch _spriteBatch)
     {
-        Game1 game = this.FlyweightReference.game;
-        _spriteBatch.Draw(this.FlyweightReference._texture, this.Position, Color.White);
+        this.FlyweightReference.Draw(_spriteBatch, Position);
+        /*Game1 game = this.FlyweightReference.game;
+        _spriteBatch.Draw(this.FlyweightReference._texture, this.Position, Color.White);*/
     }
 
     public void Delete()
@@ -125,7 +126,14 @@ public class BulletFlyweight
         }
     }
 
-    public void Draw(SpriteBatch _spriteBatch)
+
+    public void Draw(SpriteBatch spriteBatch, Vector2 position)
+    {
+        spriteBatch.Draw(this._texture, position, Color.White);
+    }
+    
+    
+    public void DrawAll(SpriteBatch _spriteBatch)
     {
         foreach (var item in game.ActiveBullets)
         {
