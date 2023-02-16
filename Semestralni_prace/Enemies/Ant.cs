@@ -41,14 +41,12 @@ public abstract class Ant : Enemy
         }
         else
         {
-            Console.WriteLine("taking damage");
             TakeDamage(amountOfDamage);   
         }
     }
 
     public void Dodge()
     {
-        Console.WriteLine("dodging");
         Random rnd = new Random();
         int x = (int)Position.X + rnd.Next(-(int)(30*Scale), (int)(30*Scale));
         int y = (int)Position.Y + rnd.Next(-(int)(30*Scale), (int)(30*Scale));
