@@ -184,7 +184,7 @@ public class BruteDragon : Dragon
         Scale = 5;
         AttackReach = 150;
 
-        Hp = 500;
+        Hp = 250;
         AttackPower = 20;
         LoadSprites();
     }
