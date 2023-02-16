@@ -155,7 +155,7 @@ namespace Semestralni_prace
                         this._content,
                         this,
                         this.bulletTexture,
-                        5,
+                        10,
                         7,
                         4));
                 }

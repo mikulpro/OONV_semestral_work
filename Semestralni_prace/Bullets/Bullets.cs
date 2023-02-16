@@ -109,7 +109,7 @@ public class BulletFlyweight
             float distance = Vector2.Distance(_bullet.Position, enemyPosition);
             if (distance < (this.Radius + enemyRadius))
             {
-                enemy.TakeDamage(this.Damage);
+                enemy.BulletCollision(_bullet, this.Damage);
                 _bullet.IsDeleted = true;
             }
         }
