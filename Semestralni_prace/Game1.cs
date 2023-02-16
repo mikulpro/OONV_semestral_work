@@ -30,36 +30,55 @@ namespace Semestralni_prace
         public BulletFactory bf;
         public GameTime gameTime;
         private Texture2D bulletTexture;
+
+        private float shootCooldown;
+        private float shootTimer;
+        private float spawnCooldown;
+        private float spawnTimer;
+        private float scoreTimer;
         
+        public Random random;
+        public int MaximumNumberOfEnemies;
+        public bool IsLost { get; set; }
+
         public Vector2 GenerateRandomVector2(float minX, float maxX, float minY, float maxY, Player hrac,
             int SafeRegion)
         {
-            Random random = new Random();
-            float x = (float)random.NextDouble() * (maxX - minX) + minX;
-            float y = (float)random.NextDouble() * (maxY - minY) + minY;
+            float x = (float)this.random.NextDouble() * (maxX - minX) + minX;
+            float y = (float)this.random.NextDouble() * (maxY - minY) + minY;
 
             int px = (int)hrac.Position.X;
             int py = (int)hrac.Position.Y;
 
             if ((Math.Abs(x - px) < SafeRegion) || (Math.Abs(y - py) < SafeRegion))
             {
-                return this.GenerateRandomVector2(minX, maxX, minY, minX, hrac, SafeRegion);
+                // return this.GenerateRandomVector2(minX, maxX, minY, minX, hrac, SafeRegion);
+                return new Vector2(-50, -50);
             }
-            else {
+            else
+            {
                 return new Vector2((int)x, (int)y);
             }
         }
 
         public Game1()
         {
+            this.random = new Random();
+            this.MaximumNumberOfEnemies = 1000;
+            
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.ApplyChanges();
-            MaximumNumberOfVisualisedBullets = 100;
+            MaximumNumberOfVisualisedBullets = 10000;
             this.bf = null;
+
+            shootCooldown = 0.5f;
+            spawnCooldown = 5.0f;
+            scoreTimer = 0.0f;
+            this.IsLost = false;
         }
 
         protected override void Initialize()
@@ -67,6 +86,7 @@ namespace Semestralni_prace
             // hrac
             Player = new Player();
             Player.Position = new Vector2(860, 540);
+            Player.gameref = this;
 
             // init listu
             ActiveEnemies = new List<IEnemy>();
@@ -95,166 +115,199 @@ namespace Semestralni_prace
             // load texture manager with textures
             TextureManager textureManager = TextureManager.Instance;
             textureManager.Load(_content);
-
         }
 
         protected override void Update(GameTime gameTime)
         {
-            // tvorba bullet factory, pokud neexistuje
-            if (this.bf == null)
+            // TODO: zobrazit cas hry
+            if (this.IsLost)
             {
-                this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(
-                    this._content, 
-                    this, 
-                    this.bulletTexture, 
-                    10, 
-                    70,
-                    10));
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                    Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    this._content.Unload();
+                    Exit();
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.P))
+                {
+                    this.IsLost = false;
+                }
             }
-            
-            // konec Escapem
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            else
             {
-                this._content.Unload();
-                Exit();
+                this.scoreTimer += (float)this.gameTime.ElapsedGameTime.TotalSeconds;
+
+                // cooldown timer na kulky
+                if (shootTimer > 0)
+                {
+                    shootTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+
+                // cooldown timer na spawnovani enemaku
+                spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+                // tvorba bullet factory, pokud neexistuje
+                if (this.bf == null)
+                {
+                    this.bf = new BulletFactory(this, this.gameTime, new BulletFlyweight(
+                        this._content,
+                        this,
+                        this.bulletTexture,
+                        5,
+                        7,
+                        4));
+                }
+
+                // konec Escapem
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                    Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    this._content.Unload();
+                    Exit();
+                }
+
+                // vykresleni hrace
+                Player.Update(gameTime, this);
+
+                // debugovaci spawnovani enemaku
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+
+                    ActiveEnemies.Add(this.bef.CreateAnt(new Vector2(10, 10)));
+                    ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
+                    ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+
+                    ActiveEnemies.Add(bef.CreateDragon(new Vector2(10, 10)));
+                    ActiveEnemies.Add(aef.CreateDragon(new Vector2(10, 10)));
+                    ActiveEnemies.Add(bref.CreateDragon(new Vector2(10, 10)));
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+
+                    ActiveEnemies.Add(bef.CreateScorpion(new Vector2(10, 10)));
+                    ActiveEnemies.Add(aef.CreateScorpion(new Vector2(10, 10)));
+                    ActiveEnemies.Add(bref.CreateScorpion(new Vector2(10, 10)));
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.B))
+                {
+
+                    ActiveBullets.Add(bf.GetRegularBullet(new Vector2(10, 10), MathHelper.ToRadians(270)), this);
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.H))
+                {
+                    this.Player.Hp = 100;
+                }
+
+                // aktivovani novych enemaku jednou za cas
+                if ((spawnTimer >= spawnCooldown) && (this.ActiveEnemies.Count() < this.MaximumNumberOfEnemies))
+                {
+                    int randomEnemy = this.random.Next(0, 9);
+                    Vector2 randomPosition = this.GenerateRandomVector2(50, 1870, 50, 1030, this.Player, 100);
+                    switch (randomEnemy)
+                    {
+                        case 0:
+                            ActiveEnemies.Add(this.bef.CreateAnt(randomPosition));
+                            break;
+                        case 1:
+                            ActiveEnemies.Add(this.aef.CreateAnt(randomPosition));
+                            break;
+                        case 2:
+                            ActiveEnemies.Add(this.bref.CreateAnt(randomPosition));
+                            break;
+                        case 3:
+                            ActiveEnemies.Add(this.bef.CreateDragon(randomPosition));
+                            break;
+                        case 4:
+                            ActiveEnemies.Add(this.aef.CreateDragon(randomPosition));
+                            break;
+                        case 5:
+                            ActiveEnemies.Add(this.bref.CreateDragon(randomPosition));
+                            break;
+                        case 6:
+                            ActiveEnemies.Add(this.bef.CreateScorpion(randomPosition));
+                            break;
+                        case 7:
+                            ActiveEnemies.Add(this.aef.CreateScorpion(randomPosition));
+                            break;
+                        case 8:
+                            ActiveEnemies.Add(this.bref.CreateScorpion(randomPosition));
+                            break;
+                        default:
+                            break;
+                    }
+
+                    spawnTimer = 0;
+                }
+
+                // update aktivnich enemaku
+                foreach (var enemy in ActiveEnemies)
+                {
+                    enemy.Update(gameTime);
+                }
+
+                // kontrola dosahu enemies na hrace
+                // TODO:
+
+                // spawnovani novych kulek, pokud hrac klikne
+                MouseState mouseState = Mouse.GetState();
+                if (((mouseState.LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space))) &&
+                    (shootTimer <= 0))
+                {
+                    shootTimer = shootCooldown;
+                    Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
+                    float deltaX = mousePosition.X - (Player.Position.X + 48);
+                    float deltaY = mousePosition.Y - (Player.Position.Y + 48);
+                    float bulletAngle = (float)Math.Atan2(deltaY, deltaX);
+                    Vector2 bulletPosition = new Vector2(Player.Position.X + 48, Player.Position.Y + 48);
+                    ActiveBullets.Add(bf.GetRegularBullet(bulletPosition, bulletAngle), this);
+                }
+
+                // update aktivnich kulek
+                foreach (var bullet in ActiveBullets)
+                {
+                    bullet.Update(gameTime);
+                }
+
+                // smazani kulek, co maji byt smazany
+                List<IBullet> BulletsToBeDeleted = new List<IBullet>();
+                foreach (var item in this.ActiveBullets)
+                {
+                    if (item.IsDeleted)
+                    {
+                        BulletsToBeDeleted.Add(item);
+                    }
+                }
+
+                foreach (var item in BulletsToBeDeleted)
+                {
+                    this.ActiveBullets.Remove(item);
+                }
+
+                // smazani nepratel, co maji byt smazani
+                List<IEnemy> EnemiesToBeDeleted = new List<IEnemy>();
+                foreach (var item in this.ActiveEnemies)
+                {
+                    if (item.IsDeleted)
+                    {
+                        EnemiesToBeDeleted.Add(item);
+                    }
+                }
+
+                foreach (var item in EnemiesToBeDeleted)
+                {
+                    this.ActiveEnemies.Remove(item);
+                }
             }
 
-            // vykresleni hrace
-            Player.Update(gameTime, this);
-
-            // debugovaci spawnovani enemaku
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-
-                ActiveEnemies.Add(this.bef.CreateAnt(new Vector2(10, 10)));
-                ActiveEnemies.Add(aef.CreateAnt(new Vector2(10, 10)));
-                ActiveEnemies.Add(bref.CreateAnt(new Vector2(10, 10)));
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-
-                ActiveEnemies.Add(bef.CreateDragon(new Vector2(10, 10)));
-                ActiveEnemies.Add(aef.CreateDragon(new Vector2(10, 10)));
-                ActiveEnemies.Add(bref.CreateDragon(new Vector2(10, 10)));
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-
-                ActiveEnemies.Add(bef.CreateScorpion(new Vector2(10, 10)));
-                ActiveEnemies.Add(aef.CreateScorpion(new Vector2(10, 10)));
-                ActiveEnemies.Add(bref.CreateScorpion(new Vector2(10, 10)));
-            }
-            
-            if (Keyboard.GetState().IsKeyDown(Keys.B))
-            {
-
-                ActiveBullets.Add(bf.GetRegularBullet(new Vector2(10, 10), MathHelper.ToRadians(270)), this);
-            }
-
-            // aktivovani novych enemaku, pokud je cas
-            float minX = 50;
-            float maxX = 1870;
-            float minY = 50;
-            float maxY = 1030;
-            int SafeRegion = 50;
-            int elapsedTime = (int)gameTime.ElapsedGameTime.TotalSeconds;
-            bool ant_s = (elapsedTime % 2 == 1);
-            bool ant_m = (elapsedTime % 10 == 1);
-            bool ant_l = (elapsedTime % 30 == 1);
-            bool dragon_s = false;
-            bool dragon_m = false;
-            bool dragon_l = false;
-            bool scorp_s = false;
-            bool scorp_m = false;
-            bool scorp_l = false;
-            if (ant_s)
-            {
-                ActiveEnemies.Add(
-                    this.bef.CreateAnt(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-            if (ant_m)
-            {
-                ActiveEnemies.Add(
-                    this.aef.CreateAnt(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-            if (ant_l)
-            {
-                ActiveEnemies.Add(
-                    this.bref.CreateAnt(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-            if (dragon_s)
-            {
-                ActiveEnemies.Add(
-                    this.bef.CreateDragon(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-            if (dragon_m)
-            {
-                ActiveEnemies.Add(
-                    this.aef.CreateDragon(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-            if (dragon_l)
-            {
-                ActiveEnemies.Add(
-                    this.bref.CreateDragon(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player,
-                        SafeRegion)));
-            }
-
-            if (scorp_s)
-            {
-                ActiveEnemies.Add(
-                    this.bef.CreateScorpion(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player,
-                        SafeRegion)));
-            }
-
-            if (scorp_m)
-            {
-                ActiveEnemies.Add(
-                    this.aef.CreateScorpion(this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player,
-                        SafeRegion)));
-            }
-
-            if (scorp_l)
-            {
-                ActiveEnemies.Add(
-                    this.bref.CreateScorpion(
-                        this.GenerateRandomVector2(minX, maxX, minY, minX, this.Player, SafeRegion)));
-            }
-
-
-            // update aktivnich enemaku
-            foreach (var enemy in ActiveEnemies)
-            {
-                enemy.Update(gameTime);
-            }
-
-            // spawnovani novych kulek, pokud hrac klikne
-            MouseState mouseState = Mouse.GetState();
-            if ((mouseState.LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)))
-            {
-                Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-                float deltaX = mousePosition.X - Player.Position.X;
-                float deltaY = mousePosition.Y - Player.Position.Y;
-                float bulletAngle = (float)Math.Atan2(deltaY, deltaX);
-                ActiveBullets.Add(bf.GetRegularBullet(Player.Position, bulletAngle), this);
-            }
-            
-            // update aktivnich kulek
-            foreach (var bullet in ActiveBullets)
-            {
-                bullet.Update(gameTime);
-            }
-            
-            // kontrola kolizi enemaku a kulek
-            // TODO:
-            
             // posunuti na vykreslovani dalsiho framu
             base.Update(gameTime);
         }
@@ -293,6 +346,23 @@ namespace Semestralni_prace
                     bullet.Draw(_spriteBatch);
                     _spriteBatch.Draw(bulletTexture, bullet.Position, Color.White);
                 }
+            }
+
+            if (this.IsLost)
+            {
+                /*
+                SpriteFont font = Content.Load<SpriteFont>("font");
+                
+                string message = "You lost";
+                Vector2 messageSize = font.MeasureString(message);
+                Vector2 messagePosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - messageSize.X / 2, GraphicsDevice.Viewport.Height / 2 - messageSize.Y / 2);
+                _spriteBatch.DrawString(font, message, messagePosition, Color.White);
+
+                string scoreMessage = "Score: " + this.scoreTimer;
+                Vector2 scoreMessageSize = font.MeasureString(scoreMessage);
+                Vector2 scoreMessagePosition = new Vector2(GraphicsDevice.Viewport.Width / 2 - scoreMessageSize.X / 2, GraphicsDevice.Viewport.Height / 2 + scoreMessageSize.Y);
+                _spriteBatch.DrawString(font, scoreMessage, scoreMessagePosition, Color.White);
+                */
             }
             
             _spriteBatch.End();

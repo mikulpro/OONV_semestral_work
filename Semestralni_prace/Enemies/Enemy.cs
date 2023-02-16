@@ -43,11 +43,12 @@ public abstract class Enemy : IEnemy
         {
             if (this.Hp - amountOfDamage <= 0)
             {
-                this.Delete();
+                this.IsDeleted = true;
             }
             else
             {
                 this.Hp = this.Hp - amountOfDamage;
+                this.IsDeleted = false;
             }
         }   
     }
@@ -64,7 +65,6 @@ public abstract class Enemy : IEnemy
 
     public void Delete()
     {
-        _game.ActiveEnemies.Remove(this);
         this.IsDeleted = true;
     }
 }

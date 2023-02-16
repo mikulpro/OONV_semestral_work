@@ -58,7 +58,6 @@ public class RegularBullet : IBullet
     public void Delete()
     {
         this.IsDeleted = true;
-        this.FlyweightReference.Delete(this);
     }
 }
 
@@ -96,19 +95,22 @@ public class BulletFlyweight
 
         // spocitani nove pozice
         float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        float timeDiff = elapsedTime - _bullet.previousGameTime;
         Vector2 Velocity = new Vector2((float)Math.Cos(_bullet.Angle), (float)Math.Sin(_bullet.Angle)) * this.Speed;
-        _bullet.Position = _bullet.Position + (Velocity * timeDiff);
+        _bullet.Position += Velocity;
         _bullet.previousGameTime = elapsedTime;
 
         // kontrola kolize s enemakem
-        foreach (var enemy in game.ActiveEnemies)
+        foreach (Enemy enemy in game.ActiveEnemies)
         {
-            float distance = Vector2.Distance(_bullet.Position, enemy.Position);
-            if (distance < this.Radius)
+            float scale = enemy.Scale;
+            float enemyRadius = 8 * scale;
+            
+            Vector2 enemyPosition = new Vector2(enemy.Position.X + 8*scale, enemy.Position.Y + 8*scale);
+            float distance = Vector2.Distance(_bullet.Position, enemyPosition);
+            if (distance < (this.Radius + enemyRadius))
             {
                 enemy.TakeDamage(this.Damage);
-                this.Delete(_bullet);
+                _bullet.IsDeleted = true;
             }
         }
 
@@ -137,18 +139,23 @@ public class BulletFlyweight
     public void Delete(IBullet item)
     {
         item.IsDeleted = true;
-        this.game.ActiveBullets.Remove(item);
     }
 
     public void GarbageCollector()
     {
         Game1 game = this.game;
+        List<IBullet> ToBeDeleted = new List<IBullet>();
         foreach (var item in game.ActiveBullets)
         {
             if (item.IsDeleted)
             {
-                game.ActiveBullets.Remove(item);
+                ToBeDeleted.Add(item);
             }
+        }
+
+        foreach (var item in ToBeDeleted)
+        {
+            game.ActiveBullets.Remove(item);
         }
     }
 }

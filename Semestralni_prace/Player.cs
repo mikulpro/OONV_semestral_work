@@ -12,6 +12,8 @@ namespace Semestralni_prace
 
     public class Player
     {
+        public Game1 gameref { get; set; }
+
         public static readonly int PlayerAnimationFrameWidth = 48;
         public static readonly int PlayerAnimationFrameHeight = 48;
 
@@ -21,7 +23,7 @@ namespace Semestralni_prace
         private float _shootDelayWalking = 2 * 0.1f;
 
 
-        public int Hp { get; }
+        public int Hp { get; set; }
         public int Attack { get; }
         public int Defense { get; }
         public int Speed { get;  }
@@ -45,6 +47,7 @@ namespace Semestralni_prace
             _facingDirection = 1;
             _currentEffect = SpriteEffects.None;
             Speed = 3;
+            Hp = 100;
         }
 
         public void Shoot()
@@ -54,7 +57,11 @@ namespace Semestralni_prace
 
         public void AcceptAttack(IEnemy enemy, int power)
         {
-            // přidat logiku ubírání hp
+            this.Hp -= power;
+            if (this.Hp <= 0)
+            {
+                this.gameref.IsLost = true;
+            }
         }
 
         public void LoadContent(ContentManager content)
